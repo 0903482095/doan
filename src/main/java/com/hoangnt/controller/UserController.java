@@ -141,9 +141,10 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int id = userService.findByUserName(authentication.getName()).getId();
         informationUser.setId(id);
-        informationUser.setImageURL(ramdom() + file.getOriginalFilename());
+       	String nameImage=ramdom() + file.getOriginalFilename();
+        informationUser.setImageURL("http://vuonxa.com:9090/resources/upload-dir/" + nameImage);
 
-        store(file, informationUser.getImageURL());
+        store(file, nameImage);
 
         User user = new User();
         user = userService.addUser(informationUser);
