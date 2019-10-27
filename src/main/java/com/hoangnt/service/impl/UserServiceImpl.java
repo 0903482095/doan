@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService<AccountDTO, InformationUser>
 
         if (informationUser.getId() > 0) {
             user = userRepository.findById(informationUser.getId()).get();
-//            user.setImageURL(informationUser.getImageURL());
             if(informationUser.getImageURL()!=null){
                 user.setImageURL(informationUser.getImageURL());
                 return userRepository.save(user);

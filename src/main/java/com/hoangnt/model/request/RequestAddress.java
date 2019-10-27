@@ -1,16 +1,18 @@
 package com.hoangnt.model.request;
 
-import com.hoangnt.model.StadiumDTO;
-
 import java.util.List;
+
+import com.hoangnt.model.StadiumDTO;
 
 public class RequestAddress {
     Integer id;
     String specificAddress;
+    String description;
     String matp;
     String maqh;
     String xaid;
     List<StadiumDTO> stadiumDTOs;
+    List<String> images;
     int user;
 
     public Integer getId() {
@@ -69,4 +71,22 @@ public class RequestAddress {
     public void setUser(int user) {
         this.user = user;
     }
+
+	public List<String> getStadiumImageDTOs() {
+		return images;
+	}
+
+	public void setStadiumImageDTOs(List<String> stadiumImageDTOs) {
+		this.images = stadiumImageDTOs;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	
 }

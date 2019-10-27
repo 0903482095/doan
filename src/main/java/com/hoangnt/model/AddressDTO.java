@@ -5,12 +5,13 @@ import java.util.List;
 public class AddressDTO {
 	Integer id;
 	String specificAddress;
+	String description;
 	CityDTO city;
 	DistrictDTO district;
 	TownDTO town;
 	List<StadiumDTO> stadiumDTOs;
-	InformationUser user;
-
+	List<StadiumImageDTO> stadiumImageDTOs;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -43,14 +44,6 @@ public class AddressDTO {
 		this.town = town;
 	}
 
-	public InformationUser getUser() {
-		return user;
-	}
-
-	public void setUser(InformationUser user) {
-		this.user = user;
-	}
-
 	public String getSpecificAddress() {
 		return specificAddress;
 	}
@@ -64,6 +57,22 @@ public class AddressDTO {
 
 	public void setStadiumDTOs(List<StadiumDTO> stadiumDTOs) {
 		this.stadiumDTOs = stadiumDTOs;
+	}
+
+	public List<StadiumImageDTO> getStadiumImageDTOs() {
+		return stadiumImageDTOs;
+	}
+
+	public void setStadiumImageDTOs(List<StadiumImageDTO> stadiumImageDTOs) {
+		this.stadiumImageDTOs = stadiumImageDTOs;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

@@ -46,6 +46,7 @@ public class UserController {
 
     @Autowired
     EntityManager em;
+
     @PostMapping("users/register")
     public ResponseEntity<Response<InformationUser>> addUser(@RequestBody InformationUser informationUser) {
         Response<InformationUser> response = new Response<>();
@@ -141,10 +142,12 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int id = userService.findByUserName(authentication.getName()).getId();
         informationUser.setId(id);
-       	String nameImage=ramdom() + file.getOriginalFilename();
-        informationUser.setImageURL("http://vuonxa.com:9090/resources/upload-dir/" + nameImage);
+        
+        UploadImage uploadImage=new UploadImage();
+       	String nameImage=uploadImage.ramdom() + file.getOriginalFilename();
+        informationUser.setImageURL("http://vuonxa.com:9090/resources/upload-dir/user/" + nameImage);
 
-        store(file, nameImage);
+        uploadImage.store(file, nameImage, rootLocation);
 
         User user = new User();
         user = userService.addUser(informationUser);
@@ -154,16 +157,6 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     //upload file
+    private final Path rootLocation = Paths.get(Paths.get("").toAbsolutePath() + "/src/main/resources/upload-dir/user/");
 
-    private final Path rootLocation = Paths.get(Paths.get("").toAbsolutePath() + "/src/main/resources/upload-dir/");
-
-
-    public void store(MultipartFile file, String fileName) throws IOException {
-        Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
-
-    }
-
-    private static Long ramdom() {
-        return (long) Math.floor((Math.random() * 1000000));
-    }
 }

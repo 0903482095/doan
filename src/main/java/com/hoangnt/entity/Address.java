@@ -23,6 +23,8 @@ public class Address {
 	int id;
 	@Column(name = "specific_address")
 	String specificAddress;
+	
+	String description;
 	@OneToOne()
 	@JoinColumn(name = "matp")
 	private City city;
@@ -37,7 +39,10 @@ public class Address {
 
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "address", fetch = FetchType.LAZY)
 	List<Stadium> stadiums;
-
+	
+	@OneToMany(mappedBy = "stadiumImage",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	List<StadiumImage> stadiumImages;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	User user;
@@ -96,6 +101,22 @@ public class Address {
 
 	public void setSpecificAddress(String specificAddress) {
 		this.specificAddress = specificAddress;
+	}
+
+	public List<StadiumImage> getStadiumImages() {
+		return stadiumImages;
+	}
+
+	public void setStadiumImages(List<StadiumImage> stadiumImages) {
+		this.stadiumImages = stadiumImages;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
