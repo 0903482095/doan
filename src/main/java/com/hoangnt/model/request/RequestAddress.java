@@ -2,6 +2,7 @@ package com.hoangnt.model.request;
 
 import java.util.List;
 
+import com.hoangnt.model.ShiftDTO;
 import com.hoangnt.model.StadiumDTO;
 
 public class RequestAddress {
@@ -12,6 +13,7 @@ public class RequestAddress {
     String maqh;
     String xaid;
     List<StadiumDTO> stadiumDTOs;
+    List<ShiftDTO> shiftDTOs;
     List<String> images;
     int user;
 
@@ -86,6 +88,14 @@ public class RequestAddress {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<ShiftDTO> getShiftDTOs() {
+		return shiftDTOs;
+	}
+
+	public void setShiftDTOs(List<ShiftDTO> shiftDTOs) {
+		this.shiftDTOs = shiftDTOs;
 	}
 
 	

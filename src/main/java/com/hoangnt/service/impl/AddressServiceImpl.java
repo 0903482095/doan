@@ -29,33 +29,34 @@ import com.hoangnt.repository.ShiftRepository;
 import com.hoangnt.repository.StadiumRepository;
 import com.hoangnt.service.AddressService;
 
-
 @Service
 public class AddressServiceImpl implements AddressService {
 	@Autowired
 	AddressRepository addressRepository;
-	
+
 	@Autowired
 	StadiumRepository stadiumRepository;
-	
+
 	@Autowired
 	ShiftRepository shiftRepository;
-	
+
 	@Autowired
-    EntityManager em;
+	EntityManager em;
 
 	@Override
 	public int addAddress(RequestAddress requestAddress) {
 		Address address;
+		List<Stadium> stadiumsSS;
 		if (requestAddress.getId() > 0) {
 			address = addressRepository.findById(requestAddress.getId()).get();
+			stadiumsSS = stadiumRepository.getByIdAddress(requestAddress.getId());
 			if (requestAddress.getStadiumImageDTOs() != null) {
 				List<StadiumImage> stadiumImages = new ArrayList<StadiumImage>();
 				requestAddress.getStadiumImageDTOs().forEach(url -> {
 					StadiumImage stadiumImage = new StadiumImage();
 					stadiumImage.setUrlImage(url);
 					stadiumImage.setStadiumImage(address);
-					
+
 					stadiumImages.add(stadiumImage);
 				});
 				address.setStadiumImages(stadiumImages);
@@ -65,6 +66,7 @@ public class AddressServiceImpl implements AddressService {
 		} else {
 			address = new Address();
 			address.setUser(new User(requestAddress.getUser()));
+			stadiumsSS = null;
 		}
 
 		address.setSpecificAddress(requestAddress.getSpecificAddress());
@@ -74,39 +76,40 @@ public class AddressServiceImpl implements AddressService {
 		address.setTown(new Town(requestAddress.getXaid()));
 
 		List<Stadium> stadiums = new ArrayList<Stadium>();
+
 		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
 			Stadium stadium;
-			if(stadiumDTO.getId()>0) {
-				stadium=stadiumRepository.findById(stadiumDTO.getId()).get();
-			}
-			else {
-				stadium=new Stadium();
+			if (stadiumDTO.getId() > 0) {
+				stadium = stadiumRepository.findById(stadiumDTO.getId()).get();
+				stadiumsSS.remove(stadium);
+			} else {
+				stadium = new Stadium();
 				stadium.setAddress(address);
 			}
 			stadium.setName(stadiumDTO.getName());
 
 			List<Shift> shifts = new ArrayList<Shift>();
-			stadiumDTO.getShiftDTOs().forEach(shiftDTO -> {
-				Shift shift;
-				if(shiftDTO.getId()>0) {
-					shift=shiftRepository.findById(shiftDTO.getId()).get();
-				}
-				else{
-					shift = new Shift();
-					shift.setStadium(stadium);
-				}
+			requestAddress.getShiftDTOs().forEach(shiftDTO -> {
+				Shift shift = new Shift();
+				shift.setStadium(stadium);
+
 				shift.setName(shiftDTO.getName());
 				shift.setTime(shiftDTO.getTime());
 				shift.setCash(shiftDTO.getCash());
 				shifts.add(shift);
-				
+
 			});
 			stadium.setShifts(shifts);
 			stadiums.add(stadium);
 		});
+		if (stadiumsSS != null) {
+			stadiumsSS.forEach(stadiumS -> {
+				stadiumRepository.delete(stadiumS);
+			});
+		}
 		address.setStadiums(stadiums);
 		Address address2 = addressRepository.save(address);
-		if(!(requestAddress.getId() > 0)) {
+		if (!(requestAddress.getId() > 0)) {
 			return address2.getId();
 		}
 		return requestAddress.getId();
@@ -125,9 +128,7 @@ public class AddressServiceImpl implements AddressService {
 		addressRepository.findAll().forEach(address -> {
 			AddressDTO addressDTO = new AddressDTO();
 			addressDTOs.add(entity2DTO(addressDTO, address));
-
 		});
-
 		return addressDTOs;
 	}
 
@@ -135,7 +136,7 @@ public class AddressServiceImpl implements AddressService {
 		addressDTO.setId(address.getId());
 		addressDTO.setSpecificAddress(address.getSpecificAddress());
 		addressDTO.setDescription(address.getDescription());
-		
+
 		CityDTO cityDTO = new CityDTO();
 		cityDTO.setMatp(address.getCity().getMatp());
 		cityDTO.setName(address.getCity().getName());
@@ -187,6 +188,12 @@ public class AddressServiceImpl implements AddressService {
 		}
 		addressDTO.setStadiumDTOs(stadiumDTOs);
 		return addressDTO;
+	}
+
+	@Override
+	public void deleteAddress(int id) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

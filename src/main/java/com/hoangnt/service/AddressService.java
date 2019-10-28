@@ -13,4 +13,6 @@ public interface AddressService {
 	
 	List<AddressDTO> getAll();
 	
+	void deleteAddress(int id);
+	
 }
