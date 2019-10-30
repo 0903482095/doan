@@ -108,10 +108,8 @@ public class AddressController {
 	}
 	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@PutMapping("/address/update/image/{id}")
+	@PutMapping("/address/add/image/{id}")
 	public ResponseEntity<Response<Integer>> updateImageAddress(@RequestParam("images") MultipartFile[] files,@PathVariable int id) throws IOException {
-		RequestAddress requestAddress=new RequestAddress();
-		
 		List<String> urls=new ArrayList<String>();
 		
 		
@@ -125,10 +123,7 @@ public class AddressController {
 	    	uploadImage.store(files[i], nameImage,rootLocation);
 	    }
 	    
-	    requestAddress.setStadiumImageDTOs(urls);
-	    requestAddress.setId(id);
-	    
-		int idAddress=addressService.addAddress(requestAddress);
+		int idAddress=addressService.addImage(urls, id);
 		responseData.setAddress(idAddress);
 		response.setStatus("OK");
         response.setData(responseData);

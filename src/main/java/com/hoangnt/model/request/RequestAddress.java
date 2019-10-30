@@ -14,7 +14,6 @@ public class RequestAddress {
     String xaid;
     List<StadiumDTO> stadiumDTOs;
     List<ShiftDTO> shiftDTOs;
-    List<String> images;
     int user;
 
     public Integer getId() {
@@ -73,14 +72,6 @@ public class RequestAddress {
     public void setUser(int user) {
         this.user = user;
     }
-
-	public List<String> getStadiumImageDTOs() {
-		return images;
-	}
-
-	public void setStadiumImageDTOs(List<String> stadiumImageDTOs) {
-		this.images = stadiumImageDTOs;
-	}
 
 	public String getDescription() {
 		return description;

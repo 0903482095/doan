@@ -45,29 +45,27 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public int addAddress(RequestAddress requestAddress) {
-		Address address;
-		List<Stadium> stadiumsSS;
-		if (requestAddress.getId() > 0) {
-			address = addressRepository.findById(requestAddress.getId()).get();
-			stadiumsSS = stadiumRepository.getByIdAddress(requestAddress.getId());
-			if (requestAddress.getStadiumImageDTOs() != null) {
-				List<StadiumImage> stadiumImages = new ArrayList<StadiumImage>();
-				requestAddress.getStadiumImageDTOs().forEach(url -> {
-					StadiumImage stadiumImage = new StadiumImage();
-					stadiumImage.setUrlImage(url);
-					stadiumImage.setStadiumImage(address);
-
-					stadiumImages.add(stadiumImage);
-				});
-				address.setStadiumImages(stadiumImages);
-				addressRepository.save(address);
-				return requestAddress.getId();
-			}
-		} else {
-			address = new Address();
-			address.setUser(new User(requestAddress.getUser()));
-			stadiumsSS = null;
-		}
+//		address;
+//		List<Stadium> stadiumsSS;
+//		if (requestAddress.getId() > 0) {
+//		Address address = addressRepository.findById(requestAddress.getId()).get();
+//			stadiumsSS = stadiumRepository.getByIdAddress(requestAddress.getId());
+//			if (requestAddress.getStadiumImageDTOs() != null) {
+//				List<StadiumImage> stadiumImages = new ArrayList<StadiumImage>();
+//				requestAddress.getStadiumImageDTOs().forEach(url -> {
+//					StadiumImage stadiumImage = new StadiumImage();
+//					stadiumImage.setUrlImage(url);
+//					stadiumImage.setStadiumImage(address);
+//
+//					stadiumImages.add(stadiumImage);
+//				});
+//				address.setStadiumImages(stadiumImages);
+//				addressRepository.save(address);
+//				return requestAddress.getId();
+//			}
+//		} else {
+		Address address = new Address();
+		address.setUser(new User(requestAddress.getUser()));
 
 		address.setSpecificAddress(requestAddress.getSpecificAddress());
 		address.setDescription(requestAddress.getDescription());
@@ -78,14 +76,8 @@ public class AddressServiceImpl implements AddressService {
 		List<Stadium> stadiums = new ArrayList<Stadium>();
 
 		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
-			Stadium stadium;
-			if (stadiumDTO.getId() > 0) {
-				stadium = stadiumRepository.findById(stadiumDTO.getId()).get();
-				stadiumsSS.remove(stadium);
-			} else {
-				stadium = new Stadium();
-				stadium.setAddress(address);
-			}
+			Stadium stadium = new Stadium();
+			stadium.setAddress(address);
 			stadium.setName(stadiumDTO.getName());
 
 			List<Shift> shifts = new ArrayList<Shift>();
@@ -102,17 +94,58 @@ public class AddressServiceImpl implements AddressService {
 			stadium.setShifts(shifts);
 			stadiums.add(stadium);
 		});
-		if (stadiumsSS != null) {
-			stadiumsSS.forEach(stadiumS -> {
-				stadiumRepository.delete(stadiumS);
-			});
-		}
 		address.setStadiums(stadiums);
 		Address address2 = addressRepository.save(address);
-		if (!(requestAddress.getId() > 0)) {
-			return address2.getId();
-		}
-		return requestAddress.getId();
+		return address2.getId();
+	}
+
+	@Override
+	public int updateAddress(RequestAddress requestAddress) {
+		Address address = addressRepository.findById(requestAddress.getId()).get();
+
+		address.setSpecificAddress(requestAddress.getSpecificAddress());
+		address.setDescription(requestAddress.getDescription());
+		address.setCity(new City(requestAddress.getMatp()));
+		address.setDistrict(new District(requestAddress.getMaqh()));
+		address.setTown(new Town(requestAddress.getXaid()));
+
+		List<Stadium> stadiums = new ArrayList<Stadium>();
+
+		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
+			Stadium stadium = stadiumRepository.findById(stadiumDTO.getId()).get();
+			stadium.setName(stadiumDTO.getName());
+
+		});
+		address.setStadiums(stadiums);
+		Address address2 = addressRepository.save(address);
+		return address2.getId();
+	}
+
+	@Override
+	public int addImage(List<String> stadiumImageDTO, int idAddress) {
+		Address address = addressRepository.findById(idAddress).get();
+		List<StadiumImage> stadiumImages = new ArrayList<StadiumImage>();
+		stadiumImageDTO.forEach(url -> {
+			StadiumImage stadiumImage = new StadiumImage();
+			stadiumImage.setUrlImage(url);
+			stadiumImage.setStadiumImage(address);
+			stadiumImages.add(stadiumImage);
+		});
+		address.setStadiumImages(stadiumImages);
+		Address address2 = addressRepository.save(address);
+		return address2.getId();
+
+	}
+
+	@Override
+	public int updateShift(ShiftDTO shiftDTO) {
+		Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
+		shift.setName(shiftDTO.getName());
+		shift.setTime(shiftDTO.getTime());
+		shift.setCash(shiftDTO.getCash());
+		
+		Shift shift2=shiftRepository.save(shift);
+		return shift2.getId();
 	}
 
 	@Override
