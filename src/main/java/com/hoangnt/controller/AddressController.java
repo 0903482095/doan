@@ -1,16 +1,11 @@
 package com.hoangnt.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,7 +50,6 @@ public class AddressController {
 		Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
 		int id=userService.findByUserName(authentication.getName()).getId();
 		requestAddress.setUser(id);
-		requestAddress.setId(0);
 		int idAddress=addressService.addAddress(requestAddress);
 		responseData.setAddress(idAddress);
 		response.setStatus("OK");
@@ -100,7 +94,7 @@ public class AddressController {
 	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 	    
 	    requestAddress.setId(id);
-	    int idAddress=addressService.addAddress(requestAddress);
+	    int idAddress=addressService.updateAddress(requestAddress);
 		responseData.setAddress(idAddress);
 		response.setStatus("OK");
         response.setData(responseData);

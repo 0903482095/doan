@@ -45,25 +45,6 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public int addAddress(RequestAddress requestAddress) {
-//		address;
-//		List<Stadium> stadiumsSS;
-//		if (requestAddress.getId() > 0) {
-//		Address address = addressRepository.findById(requestAddress.getId()).get();
-//			stadiumsSS = stadiumRepository.getByIdAddress(requestAddress.getId());
-//			if (requestAddress.getStadiumImageDTOs() != null) {
-//				List<StadiumImage> stadiumImages = new ArrayList<StadiumImage>();
-//				requestAddress.getStadiumImageDTOs().forEach(url -> {
-//					StadiumImage stadiumImage = new StadiumImage();
-//					stadiumImage.setUrlImage(url);
-//					stadiumImage.setStadiumImage(address);
-//
-//					stadiumImages.add(stadiumImage);
-//				});
-//				address.setStadiumImages(stadiumImages);
-//				addressRepository.save(address);
-//				return requestAddress.getId();
-//			}
-//		} else {
 		Address address = new Address();
 		address.setUser(new User(requestAddress.getUser()));
 
