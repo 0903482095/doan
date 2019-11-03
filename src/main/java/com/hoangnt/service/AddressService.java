@@ -12,16 +12,12 @@ import com.hoangnt.model.request.RequestAddress;
 public interface AddressService {
 	int addAddress(RequestAddress requestAddress);
 	
-	AddressDTO getAddressById(int id);
-	
 	List<AddressDTO> getAll();
 	
+	List<AddressDTO> getAllByIdUser(int id);
+	
 	int updateAddress(RequestAddress requestAddress);
-	
-	int addImage(List<String> stadiumImageDTO,int idAddress);
-	
-	int updateShift(ShiftDTO shiftDTO);
-	
+		
 	void deleteAddress(int id);
 	
 }

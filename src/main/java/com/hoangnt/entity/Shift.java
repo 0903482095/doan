@@ -16,12 +16,12 @@ public class Shift {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
-	String name;
-	String time;  	// tu may h den may h
+	int name;
 	Float cash;		// tien 1 ca
+	int status;
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stadium_id")
 	Stadium stadium;
 
@@ -33,11 +33,12 @@ public class Shift {
 		this.id = id;
 	}
 
-	public String getName() {
+	
+	public int getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(int name) {
 		this.name = name;
 	}
 
@@ -49,14 +50,6 @@ public class Shift {
 		this.stadium = stadium;
 	}
 
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
 	public Float getCash() {
 		return cash;
 	}
@@ -64,5 +57,14 @@ public class Shift {
 	public void setCash(Float cash) {
 		this.cash = cash;
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 
 }

@@ -19,7 +19,7 @@ public class StadiumImage {
 	int id;
 	@Column(name = "url_image")
 	String urlImage;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	Address stadiumImage;
 

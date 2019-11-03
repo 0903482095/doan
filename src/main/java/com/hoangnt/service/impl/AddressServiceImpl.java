@@ -60,6 +60,8 @@ public class AddressServiceImpl implements AddressService {
 			Stadium stadium = new Stadium();
 			stadium.setAddress(address);
 			stadium.setName(stadiumDTO.getName());
+			stadium.setType(stadiumDTO.getMaType());
+			stadium.setDescription(stadiumDTO.getDescription());
 
 			List<Shift> shifts = new ArrayList<Shift>();
 			requestAddress.getShiftDTOs().forEach(shiftDTO -> {
@@ -67,8 +69,8 @@ public class AddressServiceImpl implements AddressService {
 				shift.setStadium(stadium);
 
 				shift.setName(shiftDTO.getName());
-				shift.setTime(shiftDTO.getTime());
 				shift.setCash(shiftDTO.getCash());
+				shift.setStatus(0);
 				shifts.add(shift);
 
 			});
@@ -95,7 +97,9 @@ public class AddressServiceImpl implements AddressService {
 		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
 			Stadium stadium = stadiumRepository.findById(stadiumDTO.getId()).get();
 			stadium.setName(stadiumDTO.getName());
-
+			stadium.setType(stadiumDTO.getMaType());
+			stadium.setDescription(stadiumDTO.getDescription());
+			
 		});
 		address.setStadiums(stadiums);
 		Address address2 = addressRepository.save(address);
@@ -103,43 +107,19 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public int addImage(List<String> stadiumImageDTO, int idAddress) {
-		Address address = addressRepository.findById(idAddress).get();
-		List<StadiumImage> stadiumImages = new ArrayList<StadiumImage>();
-		stadiumImageDTO.forEach(url -> {
-			StadiumImage stadiumImage = new StadiumImage();
-			stadiumImage.setUrlImage(url);
-			stadiumImage.setStadiumImage(address);
-			stadiumImages.add(stadiumImage);
-		});
-		address.setStadiumImages(stadiumImages);
-		Address address2 = addressRepository.save(address);
-		return address2.getId();
-
-	}
-
-	@Override
-	public int updateShift(ShiftDTO shiftDTO) {
-		Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
-		shift.setName(shiftDTO.getName());
-		shift.setTime(shiftDTO.getTime());
-		shift.setCash(shiftDTO.getCash());
-		
-		Shift shift2=shiftRepository.save(shift);
-		return shift2.getId();
-	}
-
-	@Override
-	public AddressDTO getAddressById(int id) {
-		Address address = addressRepository.findById(id).get();
-		AddressDTO addressDTO = new AddressDTO();
-		return entity2DTO(addressDTO, address);
-	}
-
-	@Override
 	public List<AddressDTO> getAll() {
 		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
 		addressRepository.findAll().forEach(address -> {
+			AddressDTO addressDTO = new AddressDTO();
+			addressDTOs.add(entity2DTO(addressDTO, address));
+		});
+		return addressDTOs;
+	}
+	
+	@Override
+	public List<AddressDTO> getAllByIdUser(int id) {
+		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
+		addressRepository.getByIdUser(id).forEach(address -> {
 			AddressDTO addressDTO = new AddressDTO();
 			addressDTOs.add(entity2DTO(addressDTO, address));
 		});
@@ -169,26 +149,6 @@ public class AddressServiceImpl implements AddressService {
 		townDTO.setType(address.getTown().getType());
 		addressDTO.setTown(townDTO);
 
-		List<StadiumDTO> stadiumDTOs = new ArrayList<StadiumDTO>();
-		address.getStadiums().forEach(stadium -> {
-			StadiumDTO stadiumDTO = new StadiumDTO();
-			stadiumDTO.setId(stadium.getId());
-			stadiumDTO.setName(stadium.getName());
-
-			List<ShiftDTO> shiftDTOs = new ArrayList<>();
-			stadium.getShifts().forEach(shift -> {
-				ShiftDTO shiftDTO = new ShiftDTO();
-				shiftDTO.setId(shift.getId());
-				shiftDTO.setName(shift.getName());
-				shiftDTO.setTime(shift.getTime());
-				shiftDTO.setCash(shift.getCash());
-
-				shiftDTOs.add(shiftDTO);
-			});
-			stadiumDTO.setShiftDTOs(shiftDTOs);
-			stadiumDTOs.add(stadiumDTO);
-		});
-
 		if (address.getStadiumImages() != null) {
 			List<StadiumImageDTO> stadiumImageDTOs = new ArrayList<>();
 			address.getStadiumImages().forEach(image -> {
@@ -200,13 +160,12 @@ public class AddressServiceImpl implements AddressService {
 			});
 			addressDTO.setStadiumImageDTOs(stadiumImageDTOs);
 		}
-		addressDTO.setStadiumDTOs(stadiumDTOs);
 		return addressDTO;
 	}
 
 	@Override
 	public void deleteAddress(int id) {
-		// TODO Auto-generated method stub
+		addressRepository.deleteById(id);
 
 	}
 

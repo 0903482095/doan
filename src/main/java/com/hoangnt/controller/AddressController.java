@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ import com.hoangnt.model.response.Response;
 import com.hoangnt.model.response.ResponseData;
 import com.hoangnt.service.AddressService;
 import com.hoangnt.service.UserService;
+import com.hoangnt.utils.UploadImage;
 
 @RestController
 public class AddressController {
@@ -58,27 +60,16 @@ public class AddressController {
 	}
 	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@GetMapping("/address/info/{id}")
-	public ResponseEntity<Response<AddressDTO>> getInfoAddress(@PathVariable int id) {
-		
-		Response<AddressDTO> response = new Response<>();
-	    ResponseData<AddressDTO> responseData = new ResponseData<>();
-	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		AddressDTO addressDTO=addressService.getAddressById(id);
-		responseData.setAddress(addressDTO);
-		response.setStatus("OK");
-        response.setData(responseData);
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@GetMapping("/addresss")
+	@GetMapping("/address/all")
 	public ResponseEntity<Response<List<AddressDTO>>> getAll() {
+		
+		Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+		int id=userService.findByUserName(authentication.getName()).getId();
 		
 		Response<List<AddressDTO>> response = new Response<>();
 	    ResponseData<List<AddressDTO>> responseData = new ResponseData<>();
 	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		List<AddressDTO> addressDTOs=addressService.getAll();
+		List<AddressDTO> addressDTOs=addressService.getAllByIdUser(id);
 		responseData.setAddress(addressDTOs);
 		response.setStatus("OK");
         response.setData(responseData);
@@ -100,31 +91,17 @@ public class AddressController {
         response.setData(responseData);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
-	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@PutMapping("/address/add/image/{id}")
-	public ResponseEntity<Response<Integer>> updateImageAddress(@RequestParam("images") MultipartFile[] files,@PathVariable int id) throws IOException {
-		List<String> urls=new ArrayList<String>();
+	@DeleteMapping("/address/delete/{id}")
+	public ResponseEntity<Response<Void>> deleteAddress(@PathVariable int id) {
 		
-		
-		Response<Integer> response = new Response<>();
-	    ResponseData<Integer> responseData = new ResponseData<>();
+		Response<Void> response = new Response<>();
+	    ResponseData<Void> responseData = new ResponseData<>();
 	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-	    UploadImage uploadImage=new UploadImage();
-	    for(int i=0;i<files.length;i++) {
-	    	String nameImage=uploadImage.ramdom() + files[i].getOriginalFilename();
-	    	urls.add("http://vuonxa.com:9090/resources/upload-dir/address/" + nameImage);
-	    	uploadImage.store(files[i], nameImage,rootLocation);
-	    }
-	    
-		int idAddress=addressService.addImage(urls, id);
-		responseData.setAddress(idAddress);
+	    addressService.deleteAddress(id);
+	   
 		response.setStatus("OK");
         response.setData(responseData);
-		return new ResponseEntity<>(response,HttpStatus.OK);
+		return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
 	}
-	
-	//upload file
-
-    private final Path rootLocation = Paths.get(Paths.get("").toAbsolutePath() + "/src/main/resources/upload-dir/address/");
 }

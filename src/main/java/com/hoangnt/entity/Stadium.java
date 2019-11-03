@@ -19,9 +19,11 @@ public class Stadium {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
+	int type;
+	String description;
 	String name;
 
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	Address address;
 
@@ -34,6 +36,23 @@ public class Stadium {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getName() {
@@ -59,5 +78,7 @@ public class Stadium {
 	public void setShifts(List<Shift> shifts) {
 		this.shifts = shifts;
 	}
+
+	
 
 }

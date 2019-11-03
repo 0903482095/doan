@@ -47,6 +47,15 @@ public class Address {
 	@JoinColumn(name = "user_id")
 	User user;
 
+	public Address() {
+		super();
+	}
+
+	public Address(int id) {
+		super();
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

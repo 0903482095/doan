@@ -7,6 +7,7 @@ import com.hoangnt.entity.Shift;
 import com.hoangnt.model.ShiftDTO;
 import com.hoangnt.repository.ShiftRepository;
 import com.hoangnt.service.ShiftService;
+import com.hoangnt.utils.Status;
 
 @Service
 public class ShiftServiceImpl implements ShiftService{
@@ -17,11 +18,17 @@ public class ShiftServiceImpl implements ShiftService{
 	@Override
 	public ShiftDTO updateShift(ShiftDTO shiftDTO) {
 		Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
-		shift.setName(shiftDTO.getName());
-		shift.setTime(shiftDTO.getTime());
+		shift.setName(shift.getName());
 		shift.setCash(shiftDTO.getCash());
+		shift.setStatus(shiftDTO.getStatus());
 		shiftRepository.save(shift);
+		shiftDTO.setNameStatus(Status.getStatusByValue(shiftDTO.getStatus()).toString());
 		return shiftDTO;
+	}
+
+	@Override
+	public void deleteShift(int id) {
+		shiftRepository.deleteById(id);
 	}
 	
 }

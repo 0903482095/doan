@@ -2,9 +2,10 @@ package com.hoangnt.model;
 
 public class ShiftDTO {
 	int id;
-	String name;
-	String time;  	// tu may h den may h
+	int name;
 	Float cash;
+	int status;
+	String nameStatus;
 	public int getId() {
 		return id;
 	}
@@ -13,20 +14,13 @@ public class ShiftDTO {
 		this.id = id;
 	}
 
-	public String getName() {
+	
+	public int getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(int name) {
 		this.name = name;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	public Float getCash() {
@@ -35,6 +29,22 @@ public class ShiftDTO {
 
 	public void setCash(Float cash) {
 		this.cash = cash;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getNameStatus() {
+		return nameStatus;
+	}
+
+	public void setNameStatus(String nameStatus) {
+		this.nameStatus = nameStatus;
 	}
 
 }
