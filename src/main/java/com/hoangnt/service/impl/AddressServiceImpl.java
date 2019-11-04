@@ -1,6 +1,9 @@
 package com.hoangnt.service.impl;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +17,7 @@ import com.hoangnt.entity.District;
 import com.hoangnt.entity.Shift;
 import com.hoangnt.entity.Stadium;
 import com.hoangnt.entity.StadiumImage;
+import com.hoangnt.entity.StatusShift;
 import com.hoangnt.entity.Town;
 import com.hoangnt.entity.User;
 import com.hoangnt.model.AddressDTO;
@@ -27,6 +31,7 @@ import com.hoangnt.model.request.RequestAddress;
 import com.hoangnt.repository.AddressRepository;
 import com.hoangnt.repository.ShiftRepository;
 import com.hoangnt.repository.StadiumRepository;
+import com.hoangnt.repository.StatusShiftRepository;
 import com.hoangnt.service.AddressService;
 
 @Service
@@ -39,6 +44,9 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	ShiftRepository shiftRepository;
+	
+	@Autowired
+	StatusShiftRepository statusShiftRepository;
 
 	@Autowired
 	EntityManager em;
@@ -72,6 +80,21 @@ public class AddressServiceImpl implements AddressService {
 				shift.setCash(shiftDTO.getCash());
 				shift.setStatus(0);
 				shifts.add(shift);
+				
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				Calendar c = Calendar.getInstance();
+				sdf.format(Calendar.getInstance());
+				for(int i=0;i<5;i++) {
+					c.add(Calendar.DAY_OF_MONTH, i);
+					StatusShift statusShift=new StatusShift();
+					statusShift.setShift(shift);
+					statusShift.setStatus(0);
+					statusShift.setDate(sdf.format(c.getTime()));
+					
+					statusShiftRepository.save(statusShift);
+				}
+				
 
 			});
 			stadium.setShifts(shifts);
