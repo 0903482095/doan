@@ -78,24 +78,7 @@ public class AddressServiceImpl implements AddressService {
 
 				shift.setName(shiftDTO.getName());
 				shift.setCash(shiftDTO.getCash());
-				shift.setStatus(0);
 				shifts.add(shift);
-				
-				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-				Calendar c = Calendar.getInstance();
-				sdf.format(Calendar.getInstance());
-				for(int i=0;i<5;i++) {
-					c.add(Calendar.DAY_OF_MONTH, i);
-					StatusShift statusShift=new StatusShift();
-					statusShift.setShift(shift);
-					statusShift.setStatus(0);
-					statusShift.setDate(sdf.format(c.getTime()));
-					
-					statusShiftRepository.save(statusShift);
-				}
-				
-
 			});
 			stadium.setShifts(shifts);
 			stadiums.add(stadium);

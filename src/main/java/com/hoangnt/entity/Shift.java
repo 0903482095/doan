@@ -18,12 +18,18 @@ public class Shift {
 	int id;
 	int name;
 	Float cash;		// tien 1 ca
-	int status;
-	
+
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stadium_id")
 	Stadium stadium;
+
+	public Shift() {
+	}
+
+	public Shift(int id) {
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;
@@ -56,14 +62,6 @@ public class Shift {
 
 	public void setCash(Float cash) {
 		this.cash = cash;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 

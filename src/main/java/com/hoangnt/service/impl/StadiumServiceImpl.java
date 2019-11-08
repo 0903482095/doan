@@ -15,7 +15,7 @@ import com.hoangnt.utils.TypeStadium;
 
 @Service
 public class StadiumServiceImpl implements StadiumService{
-	
+
 	@Autowired
 	StadiumRepository stadiumRepository;
 
@@ -29,7 +29,7 @@ public class StadiumServiceImpl implements StadiumService{
 			stadiumDTO.setMaType(stadium.getType());
 			stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
 			stadiumDTO.setDescription(stadium.getDescription());
-		
+
 //			List<ShiftDTO> shiftDTOs = new ArrayList<>();
 //			stadium.getShifts().forEach(shift -> {
 //				ShiftDTO shiftDTO = new ShiftDTO();
@@ -54,15 +54,13 @@ public class StadiumServiceImpl implements StadiumService{
 			stadiumDTO.setMaType(stadium.getType());
 			stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
 			stadiumDTO.setDescription(stadium.getDescription());
-		
+
 			List<ShiftDTO> shiftDTOs = new ArrayList<>();
 			stadium.getShifts().forEach(shift -> {
 				ShiftDTO shiftDTO = new ShiftDTO();
 				shiftDTO.setId(shift.getId());
 				shiftDTO.setName(shift.getName());
 				shiftDTO.setCash(shift.getCash());
-				shiftDTO.setStatus(shift.getStatus());
-				shiftDTO.setNameStatus(Status.getStatusByValue(shift.getStatus()).toString());
 				shiftDTOs.add(shiftDTO);
 			});
 			stadiumDTO.setShiftDTOs(shiftDTOs);

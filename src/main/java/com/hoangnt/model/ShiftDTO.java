@@ -4,8 +4,6 @@ public class ShiftDTO {
 	int id;
 	int name;
 	Float cash;
-	int status;
-	String nameStatus;
 	public int getId() {
 		return id;
 	}
@@ -29,22 +27,6 @@ public class ShiftDTO {
 
 	public void setCash(Float cash) {
 		this.cash = cash;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public String getNameStatus() {
-		return nameStatus;
-	}
-
-	public void setNameStatus(String nameStatus) {
-		this.nameStatus = nameStatus;
 	}
 
 }

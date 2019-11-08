@@ -3,8 +3,8 @@ package com.hoangnt.model;
 public class StatusShiftDTO {
 	int id;
 	int status;
-	ShiftDTO shiftDTO;
-	InformationUser user;
+	int shiftDTO;
+	int user;
 	String date;
 	public int getId() {
 		return id;
@@ -18,18 +18,23 @@ public class StatusShiftDTO {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public ShiftDTO getShiftDTO() {
+
+	public int getShiftDTO() {
 		return shiftDTO;
 	}
-	public void setShiftDTO(ShiftDTO shiftDTO) {
+
+	public void setShiftDTO(int shiftDTO) {
 		this.shiftDTO = shiftDTO;
 	}
-	public InformationUser getUser() {
+
+	public int getUser() {
 		return user;
 	}
-	public void setUser(InformationUser user) {
+
+	public void setUser(int user) {
 		this.user = user;
 	}
+
 	public String getDate() {
 		return date;
 	}
