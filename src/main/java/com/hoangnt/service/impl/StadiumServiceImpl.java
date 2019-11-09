@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hoangnt.entity.StatusShift;
+import com.hoangnt.model.InformationUser;
 import com.hoangnt.model.ShiftDTO;
 import com.hoangnt.model.StadiumDTO;
+import com.hoangnt.model.StatusShiftResponse;
 import com.hoangnt.repository.StadiumRepository;
+import com.hoangnt.repository.StatusShiftRepository;
 import com.hoangnt.service.StadiumService;
 import com.hoangnt.utils.Status;
 import com.hoangnt.utils.TypeStadium;
@@ -18,6 +22,10 @@ public class StadiumServiceImpl implements StadiumService{
 
 	@Autowired
 	StadiumRepository stadiumRepository;
+	
+	@Autowired
+	StatusShiftRepository statusShiftRepository;
+
 
 	@Override
 	public List<StadiumDTO> getByIdAddress(int id) {
@@ -45,7 +53,7 @@ public class StadiumServiceImpl implements StadiumService{
 	}
 
 	@Override
-	public List<StadiumDTO> getFullByIdAddress(int id) {
+	public List<StadiumDTO> getFullByIdAddress(int id,String date) {
 		List<StadiumDTO> stadiumDTOs = new ArrayList<StadiumDTO>();
 		stadiumRepository.getByIdAddress(id).forEach(stadium -> {
 			StadiumDTO stadiumDTO = new StadiumDTO();
@@ -55,15 +63,36 @@ public class StadiumServiceImpl implements StadiumService{
 			stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
 			stadiumDTO.setDescription(stadium.getDescription());
 
-			List<ShiftDTO> shiftDTOs = new ArrayList<>();
-			stadium.getShifts().forEach(shift -> {
-				ShiftDTO shiftDTO = new ShiftDTO();
-				shiftDTO.setId(shift.getId());
-				shiftDTO.setName(shift.getName());
-				shiftDTO.setCash(shift.getCash());
-				shiftDTOs.add(shiftDTO);
+			List<StatusShift> statusShifts = statusShiftRepository.getAllStatusShiftByDate(date);
+			List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
+
+			statusShifts.forEach(statusShift -> {
+				if (statusShift.getShift().getStadium().getId() == stadium.getId()) {
+
+					StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+					statusShiftResponse.setId(statusShift.getId());
+
+					ShiftDTO shiftDTO = new ShiftDTO();
+					shiftDTO.setId(statusShift.getShift().getId());
+					shiftDTO.setName(statusShift.getShift().getName());
+					shiftDTO.setCash(statusShift.getShift().getCash());
+					statusShiftResponse.setShiftDTO(shiftDTO);
+
+					InformationUser informationUser = new InformationUser();
+					informationUser.setId(statusShift.getUser().getId());
+					informationUser.setFullName(statusShift.getUser().getFullName());
+					informationUser.setEmail(statusShift.getUser().getEmail());
+					informationUser.setPhone(statusShift.getUser().getPhone());
+					informationUser.setImageURL(statusShift.getUser().getImageURL());
+
+					statusShiftResponse.setUser(informationUser);
+
+					statusShiftResponse.setStatus(statusShift.getStatus());
+					statusShiftResponses.add(statusShiftResponse);
+				}
 			});
-			stadiumDTO.setShiftDTOs(shiftDTOs);
+
+			stadiumDTO.setStatusShiftResponses(statusShiftResponses);
 			stadiumDTOs.add(stadiumDTO);
 		});
 		return stadiumDTOs;

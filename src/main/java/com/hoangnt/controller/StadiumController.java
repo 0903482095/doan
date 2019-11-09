@@ -36,13 +36,13 @@ public class StadiumController {
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@GetMapping("/stadiums/full/{id}")
-	public ResponseEntity<Response<List<StadiumDTO>>> getFullStadiumByIdAddress(@PathVariable int id) {
+	@GetMapping("/stadiums/full/address/{id}/date/{date}")
+	public ResponseEntity<Response<List<StadiumDTO>>> getFullStadiumByIdAddress(@PathVariable(name = "id") int id,@PathVariable(name = "date") String date) {
 		
 		Response<List<StadiumDTO>> response = new Response<>();
 	    ResponseData<List<StadiumDTO>> responseData = new ResponseData<>();
 	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		List<StadiumDTO> stadiumDTOs=stadiumService.getFullByIdAddress(id);
+		List<StadiumDTO> stadiumDTOs=stadiumService.getFullByIdAddress(id,date);
 		responseData.setAddress(stadiumDTOs);
 		
 		response.setStatus("OK");

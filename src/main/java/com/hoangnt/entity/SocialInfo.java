@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name = "socialinfo")
 public class SocialInfo {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
     @Column(name = "provider_user_id")
     String providerUserId;
     @Column(name = "provider_id")
@@ -17,7 +19,15 @@ public class SocialInfo {
         super();
     }
 
-    public String getProviderUserId() {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getProviderUserId() {
         return providerUserId;
     }
 

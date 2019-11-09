@@ -11,6 +11,6 @@ import com.hoangnt.entity.User;
 @Transactional
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	@Query("SELECT u FROM User u WHERE u.account.username like ?1")
+	@Query("SELECT u FROM User u WHERE u.account.username = ?1")
 	User findByUsername(String username);
 }

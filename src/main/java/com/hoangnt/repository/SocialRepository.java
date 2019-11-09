@@ -10,6 +10,6 @@ import com.hoangnt.entity.SocialInfo;
 @Transactional
 @Repository
 public interface SocialRepository extends JpaRepository<SocialInfo, Integer> {
-    @Query("SELECT s FROM SocialInfo s WHERE s.providerUserId like ?1")
+    @Query("SELECT s FROM SocialInfo s WHERE s.providerUserId = ?1")
     SocialInfo findByProviderUserId(String providerUserId);
 }

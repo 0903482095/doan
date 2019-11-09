@@ -30,7 +30,7 @@ public class ShiftController {
 		responseData.setAddress(shift);
 		response.setStatus("OK");
         response.setData(responseData);
-		return new ResponseEntity<>(response,HttpStatus.CREATED);
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")

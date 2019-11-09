@@ -35,7 +35,7 @@ public class SocialServiceImpl implements UserService<RequestSocial,RequestSocia
 		informationUser.setFullName(user.getFullName());
 		informationUser.setPhone(user.getPhone());
 		informationUser.setGender(user.getGender());
-	//	informationUser.setImageURL(user.getImageURL());
+		informationUser.setImageURL(user.getImageURL());
 		return informationUser;
 	}
 

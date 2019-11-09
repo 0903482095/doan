@@ -9,6 +9,7 @@ public class StadiumDTO {
 	String type;
 	String description;
 	List<ShiftDTO> shiftDTOs;
+	List<StatusShiftResponse> statusShiftResponses;
 
 	public int getId() {
 		return id;
@@ -57,4 +58,13 @@ public class StadiumDTO {
 	public void setMaType(int maType) {
 		this.maType = maType;
 	}
+
+	public List<StatusShiftResponse> getStatusShiftResponses() {
+		return statusShiftResponses;
+	}
+
+	public void setStatusShiftResponses(List<StatusShiftResponse> statusShiftResponses) {
+		this.statusShiftResponses = statusShiftResponses;
+	}
+	
 }

@@ -1,9 +1,6 @@
 package com.hoangnt.service.impl;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,27 +8,30 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.byteowls.jopencage.JOpenCageGeocoder;
+import com.byteowls.jopencage.model.JOpenCageForwardRequest;
+import com.byteowls.jopencage.model.JOpenCageLatLng;
+import com.byteowls.jopencage.model.JOpenCageResponse;
 import com.hoangnt.entity.Address;
 import com.hoangnt.entity.City;
 import com.hoangnt.entity.District;
 import com.hoangnt.entity.Shift;
 import com.hoangnt.entity.Stadium;
-import com.hoangnt.entity.StadiumImage;
-import com.hoangnt.entity.StatusShift;
 import com.hoangnt.entity.Town;
 import com.hoangnt.entity.User;
 import com.hoangnt.model.AddressDTO;
 import com.hoangnt.model.CityDTO;
 import com.hoangnt.model.DistrictDTO;
-import com.hoangnt.model.ShiftDTO;
-import com.hoangnt.model.StadiumDTO;
 import com.hoangnt.model.StadiumImageDTO;
 import com.hoangnt.model.TownDTO;
 import com.hoangnt.model.request.RequestAddress;
 import com.hoangnt.repository.AddressRepository;
+import com.hoangnt.repository.CityRepository;
+import com.hoangnt.repository.DistrictRepository;
 import com.hoangnt.repository.ShiftRepository;
 import com.hoangnt.repository.StadiumRepository;
 import com.hoangnt.repository.StatusShiftRepository;
+import com.hoangnt.repository.TownRepository;
 import com.hoangnt.service.AddressService;
 
 @Service
@@ -47,6 +47,15 @@ public class AddressServiceImpl implements AddressService {
 	
 	@Autowired
 	StatusShiftRepository statusShiftRepository;
+	
+	@Autowired
+	CityRepository cityRepository;
+	
+	@Autowired
+	DistrictRepository districtRepository;
+	
+	@Autowired
+	TownRepository townRepository;
 
 	@Autowired
 	EntityManager em;
@@ -61,7 +70,12 @@ public class AddressServiceImpl implements AddressService {
 		address.setCity(new City(requestAddress.getMatp()));
 		address.setDistrict(new District(requestAddress.getMaqh()));
 		address.setTown(new Town(requestAddress.getXaid()));
-
+		String addressName=townRepository.findById(requestAddress.getXaid()).get().getName()+", "
+				+districtRepository.findById(requestAddress.getMaqh()).get().getName()+", "
+				+cityRepository.findById(requestAddress.getMatp()).get().getName();
+		JOpenCageLatLng latlng=getLatLong(addressName);
+		address.setLatitude(latlng.getLat());
+		address.setLongitude(latlng.getLng());
 		List<Stadium> stadiums = new ArrayList<Stadium>();
 
 		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
@@ -97,7 +111,13 @@ public class AddressServiceImpl implements AddressService {
 		address.setCity(new City(requestAddress.getMatp()));
 		address.setDistrict(new District(requestAddress.getMaqh()));
 		address.setTown(new Town(requestAddress.getXaid()));
-
+		
+		String addressName=townRepository.findById(requestAddress.getXaid()).get().getName()+", "
+				+districtRepository.findById(requestAddress.getMaqh()).get().getName()+", "
+				+cityRepository.findById(requestAddress.getMatp()).get().getName();
+		JOpenCageLatLng latlng=getLatLong(addressName);
+		address.setLatitude(latlng.getLat());
+		address.setLongitude(latlng.getLng());
 		List<Stadium> stadiums = new ArrayList<Stadium>();
 
 		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
@@ -174,5 +194,16 @@ public class AddressServiceImpl implements AddressService {
 		addressRepository.deleteById(id);
 
 	}
+	
+	public JOpenCageLatLng getLatLong(String addressName) {
+		JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("098126ec84a8428c82f7afcdcfe69b5a");
+		JOpenCageForwardRequest request = new JOpenCageForwardRequest(addressName);
+		request.setRestrictToCountryCode("VN"); // restrict results to a specific country
+	//	request.setBounds(18.367, -34.109, 18.770, -33.704); // restrict results to a geographic bounding box (southWestLng, southWestLat, northEastLng, northEastLat)
 
+		JOpenCageResponse response = jOpenCageGeocoder.forward(request);
+		JOpenCageLatLng firstResultLatLng = response.getFirstPosition(); // get the coordinate pair of the first result
+
+		return firstResultLatLng;
+	}
 }

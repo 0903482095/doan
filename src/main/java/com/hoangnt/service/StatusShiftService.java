@@ -1,7 +1,14 @@
 package com.hoangnt.service;
 
+import java.util.List;
+
 import com.hoangnt.model.StatusShiftDTO;
+import com.hoangnt.model.StatusShiftResponse;
 
 public interface StatusShiftService {
-	void addStatusShift(StatusShiftDTO statusShiftDTO);
+	int addStatusShift(StatusShiftDTO statusShiftDTO);
+	
+	StatusShiftResponse getAllStatusShiftById(int id);
+	
+	List<StatusShiftResponse> getAllStatusShiftByDate(String date,int idUser);
 }
