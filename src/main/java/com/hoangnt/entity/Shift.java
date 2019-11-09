@@ -1,5 +1,7 @@
 package com.hoangnt.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +26,9 @@ public class Shift {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stadium_id")
 	Stadium stadium;
+	
+	@OneToMany(mappedBy = "shift",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	List<StatusShift> statusShifts;
 
 	public Shift() {
 	}
@@ -62,6 +68,14 @@ public class Shift {
 
 	public void setCash(Float cash) {
 		this.cash = cash;
+	}
+
+	public List<StatusShift> getStatusShifts() {
+		return statusShifts;
+	}
+
+	public void setStatusShifts(List<StatusShift> statusShifts) {
+		this.statusShifts = statusShifts;
 	}
 
 

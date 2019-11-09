@@ -190,8 +190,13 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public void deleteAddress(int id) {
-		addressRepository.deleteById(id);
+	public int deleteAddress(int id,int idUser) {
+		
+		if(addressRepository.findById(id).get().getUser().getId()==idUser) {
+			addressRepository.deleteById(id);
+			return id;
+		}
+		return -1;
 
 	}
 	

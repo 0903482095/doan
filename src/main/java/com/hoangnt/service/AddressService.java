@@ -18,6 +18,6 @@ public interface AddressService {
 	
 	int updateAddress(RequestAddress requestAddress);
 		
-	void deleteAddress(int id);
+	int deleteAddress(int id,int idUser);
 	
 }
