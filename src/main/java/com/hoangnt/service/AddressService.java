@@ -20,4 +20,6 @@ public interface AddressService {
 		
 	int deleteAddress(int id,int idUser);
 	
+	List<AddressDTO> getListAddressByLatLng(double lat,double lng);
+	
 }

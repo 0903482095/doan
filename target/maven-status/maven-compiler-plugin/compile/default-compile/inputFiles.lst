@@ -30,6 +30,7 @@ D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\DistrictService.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\AddressServiceImpl.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\StadiumImageDTO.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\CityServiceImpl.java
+D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\ManagerServiceImpl.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\InformationUser.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\StatusShiftDTO.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\DistrictServiceImpl.java
@@ -41,7 +42,6 @@ D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\Address.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\utils\UploadImage.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\TownService.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\StatusShiftResponse.java
-D:\eclipse-workspace\doan\src\main\java\com\hoangnt\controller\SocialController.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\StadiumImage.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\DistrictDTO.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\utils\Status.java
@@ -59,6 +59,7 @@ D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\Town.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\StadiumServiceImpl.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\StadiumDTO.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\User.java
+D:\eclipse-workspace\doan\src\main\java\com\hoangnt\controller\ManagerController.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\config\JWTAuthenticationEntryPoint.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\repository\ShiftRepository.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\config\JWTAuthenticationFilter.java
@@ -72,4 +73,3 @@ D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\UserServiceImpl
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\AddressDTO.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\repository\StadiumRepository.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\StatusShift.java
-D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\SocialServiceImpl.java

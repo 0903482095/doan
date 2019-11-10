@@ -1,7 +1,9 @@
 package com.hoangnt.service.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
@@ -44,16 +46,16 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	ShiftRepository shiftRepository;
-	
+
 	@Autowired
 	StatusShiftRepository statusShiftRepository;
-	
+
 	@Autowired
 	CityRepository cityRepository;
-	
+
 	@Autowired
 	DistrictRepository districtRepository;
-	
+
 	@Autowired
 	TownRepository townRepository;
 
@@ -70,10 +72,10 @@ public class AddressServiceImpl implements AddressService {
 		address.setCity(new City(requestAddress.getMatp()));
 		address.setDistrict(new District(requestAddress.getMaqh()));
 		address.setTown(new Town(requestAddress.getXaid()));
-		String addressName=townRepository.findById(requestAddress.getXaid()).get().getName()+", "
-				+districtRepository.findById(requestAddress.getMaqh()).get().getName()+", "
-				+cityRepository.findById(requestAddress.getMatp()).get().getName();
-		JOpenCageLatLng latlng=getLatLong(addressName);
+		String addressName = townRepository.findById(requestAddress.getXaid()).get().getName() + ", "
+				+ districtRepository.findById(requestAddress.getMaqh()).get().getName() + ", "
+				+ cityRepository.findById(requestAddress.getMatp()).get().getName();
+		JOpenCageLatLng latlng = getLatLong(addressName);
 		address.setLatitude(latlng.getLat());
 		address.setLongitude(latlng.getLng());
 		List<Stadium> stadiums = new ArrayList<Stadium>();
@@ -111,11 +113,11 @@ public class AddressServiceImpl implements AddressService {
 		address.setCity(new City(requestAddress.getMatp()));
 		address.setDistrict(new District(requestAddress.getMaqh()));
 		address.setTown(new Town(requestAddress.getXaid()));
-		
-		String addressName=townRepository.findById(requestAddress.getXaid()).get().getName()+", "
-				+districtRepository.findById(requestAddress.getMaqh()).get().getName()+", "
-				+cityRepository.findById(requestAddress.getMatp()).get().getName();
-		JOpenCageLatLng latlng=getLatLong(addressName);
+
+		String addressName = townRepository.findById(requestAddress.getXaid()).get().getName() + ", "
+				+ districtRepository.findById(requestAddress.getMaqh()).get().getName() + ", "
+				+ cityRepository.findById(requestAddress.getMatp()).get().getName();
+		JOpenCageLatLng latlng = getLatLong(addressName);
 		address.setLatitude(latlng.getLat());
 		address.setLongitude(latlng.getLng());
 		List<Stadium> stadiums = new ArrayList<Stadium>();
@@ -125,7 +127,7 @@ public class AddressServiceImpl implements AddressService {
 			stadium.setName(stadiumDTO.getName());
 			stadium.setType(stadiumDTO.getMaType());
 			stadium.setDescription(stadiumDTO.getDescription());
-			
+
 		});
 		address.setStadiums(stadiums);
 		Address address2 = addressRepository.save(address);
@@ -141,11 +143,25 @@ public class AddressServiceImpl implements AddressService {
 		});
 		return addressDTOs;
 	}
-	
+
 	@Override
 	public List<AddressDTO> getAllByIdUser(int id) {
 		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
 		addressRepository.getByIdUser(id).forEach(address -> {
+			AddressDTO addressDTO = new AddressDTO();
+			addressDTOs.add(entity2DTO(addressDTO, address));
+		});
+		return addressDTOs;
+	}
+
+	@Override
+	public List<AddressDTO> getListAddressByLatLng(double lat, double lng) {
+		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
+
+		List<Address> sortedAddress = addressRepository.findAll().stream().sorted(sortByCoodinates(lat, lng))
+				.collect(Collectors.toList());
+
+		sortedAddress.forEach(address -> {
 			AddressDTO addressDTO = new AddressDTO();
 			addressDTOs.add(entity2DTO(addressDTO, address));
 		});
@@ -190,25 +206,34 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public int deleteAddress(int id,int idUser) {
-		
-		if(addressRepository.findById(id).get().getUser().getId()==idUser) {
+	public int deleteAddress(int id, int idUser) {
+
+		if (addressRepository.findById(id).get().getUser().getId() == idUser) {
 			addressRepository.deleteById(id);
 			return id;
 		}
 		return -1;
 
 	}
-	
+
 	public JOpenCageLatLng getLatLong(String addressName) {
 		JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("098126ec84a8428c82f7afcdcfe69b5a");
 		JOpenCageForwardRequest request = new JOpenCageForwardRequest(addressName);
 		request.setRestrictToCountryCode("VN"); // restrict results to a specific country
-	//	request.setBounds(18.367, -34.109, 18.770, -33.704); // restrict results to a geographic bounding box (southWestLng, southWestLat, northEastLng, northEastLat)
+		// request.setBounds(18.367, -34.109, 18.770, -33.704); // restrict results to a
+		// geographic bounding box (southWestLng, southWestLat, northEastLng,
+		// northEastLat)
 
 		JOpenCageResponse response = jOpenCageGeocoder.forward(request);
 		JOpenCageLatLng firstResultLatLng = response.getFirstPosition(); // get the coordinate pair of the first result
 
 		return firstResultLatLng;
+	}
+
+	private Comparator<Address> sortByCoodinates(double currentLat, double currentLng) {
+		Comparator<Address> compareByName = Comparator.comparing(
+				(Address address) -> Math.abs((Math.pow(address.getLatitude(), 2) + Math.pow(address.getLongitude(), 2))
+						- (Math.pow(currentLat, 2) + Math.pow(currentLng, 2))));
+		return compareByName;
 	}
 }

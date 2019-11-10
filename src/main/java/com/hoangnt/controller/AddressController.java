@@ -2,6 +2,7 @@ package com.hoangnt.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -104,5 +105,24 @@ public class AddressController {
 			response.setStatus("Fail");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
+	}	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	@GetMapping(value = {"/address/coordinate/{lat}/{lng}","/address/coordinate"})
+	public ResponseEntity<Response<List<AddressDTO>>> getAllByLatLng(@PathVariable Optional<Double> lat,@PathVariable Optional<Double> lng) {
+
+		Response<List<AddressDTO>> response = new Response<>();
+		ResponseData<List<AddressDTO>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		List<AddressDTO> addressDTOs;
+		if(lat.isPresent()) {
+			addressDTOs= addressService.getListAddressByLatLng(lat.get(), lng.get());
+		}
+		else {
+			addressDTOs= addressService.getAll();
+		}
+		responseData.setAddress(addressDTOs);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
