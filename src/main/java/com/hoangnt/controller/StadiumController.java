@@ -35,7 +35,7 @@ public class StadiumController {
         response.setData(responseData);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
-	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+	@PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
 	@GetMapping("/stadiums/full/address/{id}/date/{date}")
 	public ResponseEntity<Response<List<StadiumDTO>>> getFullStadiumByIdAddress(@PathVariable(name = "id") int id,@PathVariable(name = "date") String date) {
 		
