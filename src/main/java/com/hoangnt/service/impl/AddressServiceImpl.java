@@ -19,12 +19,17 @@ import com.hoangnt.entity.City;
 import com.hoangnt.entity.District;
 import com.hoangnt.entity.Shift;
 import com.hoangnt.entity.Stadium;
+import com.hoangnt.entity.StatusShift;
 import com.hoangnt.entity.Town;
 import com.hoangnt.entity.User;
 import com.hoangnt.model.AddressDTO;
 import com.hoangnt.model.CityDTO;
 import com.hoangnt.model.DistrictDTO;
+import com.hoangnt.model.InformationUser;
+import com.hoangnt.model.ShiftDTO;
+import com.hoangnt.model.StadiumDTO;
 import com.hoangnt.model.StadiumImageDTO;
+import com.hoangnt.model.StatusShiftResponse;
 import com.hoangnt.model.TownDTO;
 import com.hoangnt.model.request.RequestAddress;
 import com.hoangnt.repository.AddressRepository;
@@ -35,6 +40,7 @@ import com.hoangnt.repository.StadiumRepository;
 import com.hoangnt.repository.StatusShiftRepository;
 import com.hoangnt.repository.TownRepository;
 import com.hoangnt.service.AddressService;
+import com.hoangnt.utils.TypeStadium;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -67,6 +73,7 @@ public class AddressServiceImpl implements AddressService {
 		Address address = new Address();
 		address.setUser(new User(requestAddress.getUser()));
 
+		address.setName(requestAddress.getName());
 		address.setSpecificAddress(requestAddress.getSpecificAddress());
 		address.setDescription(requestAddress.getDescription());
 		address.setCity(new City(requestAddress.getMatp()));
@@ -93,6 +100,8 @@ public class AddressServiceImpl implements AddressService {
 				shift.setStadium(stadium);
 
 				shift.setName(shiftDTO.getName());
+				shift.setTime_start(shiftDTO.getTime_start());
+				shift.setTime_end(shiftDTO.getTime_end());
 				shift.setCash(shiftDTO.getCash());
 				shifts.add(shift);
 			});
@@ -108,6 +117,7 @@ public class AddressServiceImpl implements AddressService {
 	public int updateAddress(RequestAddress requestAddress) {
 		Address address = addressRepository.findById(requestAddress.getId()).get();
 
+		address.setName(requestAddress.getName());
 		address.setSpecificAddress(requestAddress.getSpecificAddress());
 		address.setDescription(requestAddress.getDescription());
 		address.setCity(new City(requestAddress.getMatp()));
@@ -155,6 +165,58 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
+	public List<AddressDTO> getAllByIdUserWithStatus(int id, int status) {
+		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
+
+		addressRepository.getByIdUser(id).forEach(address -> {
+			AddressDTO addressDTO = new AddressDTO();
+
+			List<StadiumDTO> stadiumDTOs = new ArrayList<StadiumDTO>();
+			stadiumRepository.getByIdAddress(address.getId()).forEach(stadium -> {
+				StadiumDTO stadiumDTO = new StadiumDTO();
+				stadiumDTO.setId(stadium.getId());
+				stadiumDTO.setName(stadium.getName());
+				stadiumDTO.setMaType(stadium.getType());
+				stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
+				stadiumDTO.setDescription(stadium.getDescription());
+
+				List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
+				List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
+
+				statusShifts.forEach(statusShift -> {
+					if (statusShift.getShift().getStadium().getId() == stadium.getId()) {
+
+						StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+						statusShiftResponse.setId(statusShift.getId());
+
+						statusShiftResponses.add(statusShiftResponse);
+					}
+				});
+				if (statusShiftResponses.isEmpty()) {
+					stadiumDTO = null;
+				} else {
+					stadiumDTO.setStatusShiftResponses(statusShiftResponses);
+					stadiumDTOs.add(stadiumDTO);
+
+					addressDTO.setStadiumDTOs(stadiumDTOs);
+				}
+			});
+
+			if (null!=addressDTO.getStadiumDTOs()) {
+				addressDTOs.add(entity2DTO(addressDTO, address));
+			}
+		});
+		
+		addressDTOs.forEach(address->{
+			address.getStadiumDTOs().forEach(stadium->{
+				stadium.setStatusShiftResponses(null);
+			});
+		});
+
+		return addressDTOs;
+	}
+
+	@Override
 	public List<AddressDTO> getListAddressByLatLng(double lat, double lng) {
 		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
 
@@ -170,6 +232,7 @@ public class AddressServiceImpl implements AddressService {
 
 	AddressDTO entity2DTO(AddressDTO addressDTO, Address address) {
 		addressDTO.setId(address.getId());
+		addressDTO.setName(address.getName());
 		addressDTO.setSpecificAddress(address.getSpecificAddress());
 		addressDTO.setDescription(address.getDescription());
 
@@ -236,4 +299,5 @@ public class AddressServiceImpl implements AddressService {
 						- (Math.pow(currentLat, 2) + Math.pow(currentLng, 2))));
 		return compareByName;
 	}
+
 }

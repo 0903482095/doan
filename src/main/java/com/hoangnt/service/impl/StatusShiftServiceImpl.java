@@ -23,7 +23,7 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 
 	@Override
 	public int addStatusShift(StatusShiftDTO statusShiftDTO) {
-		if (checkStatus(statusShiftDTO.getShiftDTO())) {
+		if (checkStatus(statusShiftDTO.getShiftDTO(),statusShiftDTO.getDate())) {
 
 			StatusShift statusShift = new StatusShift();
 			statusShift.setShift(new Shift(statusShiftDTO.getShiftDTO()));
@@ -34,19 +34,30 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 		}
 		return -1;
 	}
-	
+
+	@Override
+	public int updateStatusShift(StatusShiftDTO statusShiftDTO) {
+		StatusShift statusShift=statusShiftRepository.findById(statusShiftDTO.getId()).get();
+		statusShift.setStatus(statusShiftDTO.getStatus());
+		statusShift.setNote(statusShiftDTO.getNote());
+		statusShiftRepository.save(statusShift);
+		return statusShift.getId();
+	}
+
 	@Override
 	public StatusShiftResponse getAllStatusShiftById(int id) {
-		StatusShift statusShift=statusShiftRepository.findById(id).get();
+		StatusShift statusShift = statusShiftRepository.findById(id).get();
 		StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
 		statusShiftResponse.setId(statusShift.getId());
 
 		ShiftDTO shiftDTO = new ShiftDTO();
 		shiftDTO.setId(statusShift.getShift().getId());
 		shiftDTO.setName(statusShift.getShift().getName());
+		shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+		shiftDTO.setTime_end(statusShift.getShift().getTime_end());
 		shiftDTO.setCash(statusShift.getShift().getCash());
 		statusShiftResponse.setShiftDTO(shiftDTO);
-		
+
 		InformationUser informationUser = new InformationUser();
 		informationUser.setId(statusShift.getUser().getId());
 		informationUser.setFullName(statusShift.getUser().getFullName());
@@ -59,7 +70,7 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 		statusShiftResponse.setStatus(statusShift.getStatus());
 		return statusShiftResponse;
 	}
-	
+
 	@Override
 	public List<StatusShiftResponse> getAllStatusShiftByDate(String date, int idUser) {
 
@@ -75,6 +86,8 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 				ShiftDTO shiftDTO = new ShiftDTO();
 				shiftDTO.setId(statusShift.getShift().getId());
 				shiftDTO.setName(statusShift.getShift().getName());
+				shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+				shiftDTO.setTime_end(statusShift.getShift().getTime_end());
 				shiftDTO.setCash(statusShift.getShift().getCash());
 				statusShiftResponse.setShiftDTO(shiftDTO);
 
@@ -95,10 +108,13 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 		return statusShiftResponses;
 	}
 
-	public boolean checkStatus(int idShiftDTO) {
-		if(null != statusShiftRepository.getStatusShiftByIdShift(idShiftDTO)) return false;
+	public boolean checkStatus(int idShiftDTO, String date) {
+		if (null != statusShiftRepository.getStatusShiftByIdShiftAndDate(idShiftDTO, date)) {
+			StatusShift statusShift=statusShiftRepository.getStatusShiftByIdShiftAndDate(idShiftDTO, date);
+			if (statusShift.getStatus()==1 || statusShift.getStatus()==2)
+				return false;
+		}
 		return true;
 	}
-
 
 }

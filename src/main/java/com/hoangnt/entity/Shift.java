@@ -20,6 +20,8 @@ public class Shift {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	int name;
+	String time_start;
+	String time_end;
 	Float cash;		// tien 1 ca
 
 	
@@ -76,6 +78,22 @@ public class Shift {
 
 	public void setStatusShifts(List<StatusShift> statusShifts) {
 		this.statusShifts = statusShifts;
+	}
+
+	public String getTime_start() {
+		return time_start;
+	}
+
+	public void setTime_start(String time_start) {
+		this.time_start = time_start;
+	}
+
+	public String getTime_end() {
+		return time_end;
+	}
+
+	public void setTime_end(String time_end) {
+		this.time_end = time_end;
 	}
 
 

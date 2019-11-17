@@ -6,6 +6,7 @@ public class StatusShiftResponse {
 	ShiftDTO shiftDTO;
 	InformationUser user;
 	String date;
+	String note;
 	public int getId() {
 		return id;
 	}
@@ -35,6 +36,12 @@ public class StatusShiftResponse {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 }

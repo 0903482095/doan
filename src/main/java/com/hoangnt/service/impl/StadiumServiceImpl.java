@@ -75,6 +75,8 @@ public class StadiumServiceImpl implements StadiumService {
 					ShiftDTO shiftDTO = new ShiftDTO();
 					shiftDTO.setId(statusShift.getShift().getId());
 					shiftDTO.setName(statusShift.getShift().getName());
+					shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+					shiftDTO.setTime_end(statusShift.getShift().getTime_end());
 					shiftDTO.setCash(statusShift.getShift().getCash());
 					statusShiftResponse.setShiftDTO(shiftDTO);
 
@@ -88,6 +90,7 @@ public class StadiumServiceImpl implements StadiumService {
 					statusShiftResponse.setUser(informationUser);
 
 					statusShiftResponse.setStatus(statusShift.getStatus());
+					statusShiftResponse.setNote(statusShift.getNote());
 					statusShiftResponses.add(statusShiftResponse);
 				}
 			});
@@ -99,6 +102,8 @@ public class StadiumServiceImpl implements StadiumService {
 					ShiftDTO shiftDTO = new ShiftDTO();
 					shiftDTO.setId(shift.getId());
 					shiftDTO.setName(shift.getName());
+					shiftDTO.setTime_start(shift.getTime_start());
+					shiftDTO.setTime_end(shift.getTime_end());
 					shiftDTO.setCash(shift.getCash());
 
 					statusShiftResponse.setShiftDTO(shiftDTO);
@@ -123,6 +128,8 @@ public class StadiumServiceImpl implements StadiumService {
 						ShiftDTO shiftDTO = new ShiftDTO();
 						shiftDTO.setId(shift.getId());
 						shiftDTO.setName(shift.getName());
+						shiftDTO.setTime_start(shift.getTime_start());
+						shiftDTO.setTime_end(shift.getTime_end());
 						shiftDTO.setCash(shift.getCash());
 
 						statusShiftResponse.setShiftDTO(shiftDTO);
@@ -137,6 +144,42 @@ public class StadiumServiceImpl implements StadiumService {
 			stadiumDTOs.add(stadiumDTO);
 		});
 		return stadiumDTOs;
+	}
+
+	@Override
+	public List<StatusShiftResponse> getFullByIdStadiumWithStatus(int id, int status) {
+
+		List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
+		List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
+		statusShifts.forEach(statusShift -> {
+			if (statusShift.getShift().getStadium().getId() == id) {
+
+				StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+				statusShiftResponse.setId(statusShift.getId());
+
+				ShiftDTO shiftDTO = new ShiftDTO();
+				shiftDTO.setId(statusShift.getShift().getId());
+				shiftDTO.setName(statusShift.getShift().getName());
+				shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+				shiftDTO.setTime_end(statusShift.getShift().getTime_end());
+				shiftDTO.setCash(statusShift.getShift().getCash());
+				statusShiftResponse.setShiftDTO(shiftDTO);
+
+				InformationUser informationUser = new InformationUser();
+				informationUser.setId(statusShift.getUser().getId());
+				informationUser.setFullName(statusShift.getUser().getFullName());
+				informationUser.setEmail(statusShift.getUser().getEmail());
+				informationUser.setPhone(statusShift.getUser().getPhone());
+				informationUser.setImageURL(statusShift.getUser().getImageURL());
+
+				statusShiftResponse.setUser(informationUser);
+
+				statusShiftResponse.setStatus(statusShift.getStatus());
+				statusShiftResponses.add(statusShiftResponse);
+			}
+		});
+
+		return statusShiftResponses;
 	}
 
 	@Override

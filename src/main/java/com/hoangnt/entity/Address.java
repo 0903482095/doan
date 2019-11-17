@@ -21,6 +21,8 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
+	
+	String name;
 	@Column(name = "specific_address")
 	String specificAddress;
 	
@@ -145,6 +147,14 @@ public class Address {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	

@@ -6,6 +6,7 @@ public class StatusShiftDTO {
 	int shiftDTO;
 	int user;
 	String date;
+	String note;
 	public int getId() {
 		return id;
 	}
@@ -40,6 +41,12 @@ public class StatusShiftDTO {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 }

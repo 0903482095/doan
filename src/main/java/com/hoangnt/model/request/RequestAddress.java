@@ -7,6 +7,7 @@ import com.hoangnt.model.StadiumDTO;
 
 public class RequestAddress {
     Integer id;
+    String name;
     String specificAddress;
     String description;
     String matp;
@@ -87,6 +88,14 @@ public class RequestAddress {
 
 	public void setShiftDTOs(List<ShiftDTO> shiftDTOs) {
 		this.shiftDTOs = shiftDTOs;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	

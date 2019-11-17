@@ -4,6 +4,7 @@ import java.util.List;
 
 public class AddressDTO {
 	Integer id;
+	String name;
 	String specificAddress;
 	String description;
 	CityDTO city;
@@ -73,6 +74,14 @@ public class AddressDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

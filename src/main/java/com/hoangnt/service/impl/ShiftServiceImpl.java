@@ -21,6 +21,8 @@ public class ShiftServiceImpl implements ShiftService{
 		ShiftDTO shiftDTO=new ShiftDTO();
 		shiftDTO.setId(shift.getId());
 		shiftDTO.setName(shift.getName());
+		shiftDTO.setTime_start(shift.getTime_start());
+		shiftDTO.setTime_end(shift.getTime_end());
 		shiftDTO.setCash(shift.getCash());
 
 		return shiftDTO;
@@ -30,6 +32,8 @@ public class ShiftServiceImpl implements ShiftService{
 	public ShiftDTO updateShift(ShiftDTO shiftDTO) {
 		Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
 		shift.setName(shift.getName());
+		shift.setTime_start(shiftDTO.getTime_start());
+		shift.setTime_end(shiftDTO.getTime_end());
 		shift.setCash(shiftDTO.getCash());
 		shiftRepository.save(shift);
 		return shiftDTO;

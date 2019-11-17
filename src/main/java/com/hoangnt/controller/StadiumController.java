@@ -10,9 +10,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoangnt.model.StadiumDTO;
+import com.hoangnt.model.StatusShiftDTO;
+import com.hoangnt.model.StatusShiftResponse;
 import com.hoangnt.model.response.Response;
 import com.hoangnt.model.response.ResponseData;
 import com.hoangnt.service.StadiumService;
@@ -49,6 +53,39 @@ public class StadiumController {
         response.setData(responseData);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+	@GetMapping("/stadiums/confirm/{idStadium}")
+	public ResponseEntity<Response<List<StatusShiftResponse>>> confirmShiftStatus(@PathVariable int idStadium) {
+
+		Response<List<StatusShiftResponse>> response = new Response<>();
+		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		response.setData(responseData);
+		List<StatusShiftResponse> statusShiftResponses=stadiumService.getFullByIdStadiumWithStatus(idStadium, 1);
+		responseData.setAddress(statusShiftResponses);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+	
+//	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+//	@GetMapping("/stadiums/full/address/{id}")
+//	public ResponseEntity<Response<List<StadiumDTO>>> getFullStadiumToConfirm(@PathVariable(name = "id") int id) {
+//		
+//		Response<List<StadiumDTO>> response = new Response<>();
+//	    ResponseData<List<StadiumDTO>> responseData = new ResponseData<>();
+//	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+//		List<StadiumDTO> stadiumDTOs=stadiumService.getFullByIdAddress(id,date);
+//		responseData.setAddress(stadiumDTOs);
+//		
+//		response.setStatus("OK");
+//        response.setData(responseData);
+//		return new ResponseEntity<>(response,HttpStatus.OK);
+//	}
+//	
+	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 	@DeleteMapping("/stadiums/delete/{id}")
 	public ResponseEntity<Response<Void>> deleteStadium(@PathVariable int id) {

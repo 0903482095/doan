@@ -28,6 +28,8 @@ public class StatusShift {
 	User user;
 	
 	String date;
+	
+	String note;
 
 	public int getId() {
 		return id;
@@ -67,6 +69,14 @@ public class StatusShift {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	
