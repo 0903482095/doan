@@ -89,22 +89,22 @@ public class StatusShiftController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@GetMapping("/statusshift/date/{date}")
-	public ResponseEntity<Response<List<StatusShiftResponse>>> getAllStatusShiftByDate(@PathVariable String date) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int id = managerService.findByUserName(authentication.getName()).getId();
-
-		Response<List<StatusShiftResponse>> response = new Response<>();
-		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
-		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-
-		List<StatusShiftResponse> statusShiftResponses = statusShiftService.getAllStatusShiftByDate(date, id);
-
-		responseData.setAddress(statusShiftResponses);
-		response.setStatus("OK");
-		response.setData(responseData);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
+//	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+//	@GetMapping("/statusshift/date/{date}")
+//	public ResponseEntity<Response<List<StatusShiftResponse>>> getAllStatusShiftByDate(@PathVariable String date) {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		int id = managerService.findByUserName(authentication.getName()).getId();
+//
+//		Response<List<StatusShiftResponse>> response = new Response<>();
+//		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
+//		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+//
+//		List<StatusShiftResponse> statusShiftResponses = statusShiftService.getAllStatusShiftByDate(date, id);
+//
+//		responseData.setAddress(statusShiftResponses);
+//		response.setStatus("OK");
+//		response.setData(responseData);
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
 
 }

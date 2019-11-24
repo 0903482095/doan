@@ -26,6 +26,8 @@ import com.hoangnt.model.AddressDTO;
 import com.hoangnt.model.CityDTO;
 import com.hoangnt.model.DistrictDTO;
 import com.hoangnt.model.InformationUser;
+import com.hoangnt.model.Statistical;
+import com.hoangnt.model.StatisticalAll;
 import com.hoangnt.model.ShiftDTO;
 import com.hoangnt.model.StadiumDTO;
 import com.hoangnt.model.StadiumImageDTO;
@@ -278,6 +280,116 @@ public class AddressServiceImpl implements AddressService {
 		return -1;
 
 	}
+	
+	@Override
+	public StatisticalAll<Float> profitDateAddressByIdUserWithStatus(int id,int status,String date) {
+		
+		StatisticalAll<Float> statisticalAll=new StatisticalAll<Float>();
+		statisticalAll.setDate(date);
+		List<Statistical<Float>> statisticals=new ArrayList<>();
+		float sumAllAddress=0;
+		List<Address> address=addressRepository.getByIdUser(id);
+		
+		for(int k=0;k<address.size();k++) {
+			Statistical<Float> statistical=new Statistical<Float>();
+			float sumAddress=0;
+
+			List<Stadium> stadiums=stadiumRepository.getByIdAddress(address.get(k).getId());
+			for(int j=0;j<stadiums.size();j++) {
+				
+				List<StatusShift> statusShifts = statusShiftRepository.getFullByStatusAndDate(status,date);				
+				for (int i = 0; i < statusShifts.size(); i++) {
+					if (statusShifts.get(i).getShift().getStadium().getId() == stadiums.get(j).getId()) {
+						sumAddress += statusShifts.get(i).getShift().getCash();
+					}
+				}
+			}
+			sumAllAddress+=sumAddress;
+			
+			statistical.setNameAddess(address.get(k).getName());
+			statistical.setValue(sumAddress);
+			statisticals.add(statistical);
+		}
+		statisticalAll.setStatisticals(statisticals);
+		statisticalAll.setTotal(sumAllAddress);
+
+		return statisticalAll;
+	}
+
+	@Override
+	public StatisticalAll<Integer> numberShiftDateAddressByIdUserWithStatus(int id, int status, String date) {
+		StatisticalAll<Integer> statisticalAll=new StatisticalAll<Integer>();
+		statisticalAll.setDate(date);
+		List<Statistical<Integer>> statisticals=new ArrayList<>();
+		int sumAllAddress=0;
+		List<Address> address=addressRepository.getByIdUser(id);
+		
+		for(int k=0;k<address.size();k++) {
+			Statistical<Integer> statistical=new Statistical<Integer>();
+			int sumAddress=0;
+
+			List<Stadium> stadiums=stadiumRepository.getByIdAddress(address.get(k).getId());
+			for(int j=0;j<stadiums.size();j++) {
+				
+				List<StatusShift> statusShifts = statusShiftRepository.getFullByStatusAndDate(status,date);				
+				for (int i = 0; i < statusShifts.size(); i++) {
+					if (statusShifts.get(i).getShift().getStadium().getId() == stadiums.get(j).getId()) {
+						sumAddress ++;
+					}
+				}
+			}
+			sumAllAddress+=sumAddress;
+			
+			statistical.setNameAddess(address.get(k).getName());
+			statistical.setValue(sumAddress);
+			statisticals.add(statistical);
+		}
+		statisticalAll.setStatisticals(statisticals);
+		statisticalAll.setTotal(sumAllAddress);
+
+		return statisticalAll;
+	}
+	
+	@Override
+	public StatisticalAll<Integer> numberShiftDateAddressByIdUserWithStatus0(int id, String date) {
+		StatisticalAll<Integer> statisticalAll=new StatisticalAll<Integer>();
+		statisticalAll.setDate(date);
+		List<Statistical<Integer>> statisticals=new ArrayList<>();
+		int sumAllAddress=0;
+		List<Address> address=addressRepository.getByIdUser(id);
+		
+		for(int k=0;k<address.size();k++) {
+			Statistical<Integer> statistical=new Statistical<Integer>();
+			
+			int sumAddressWithStatus0=0;
+
+			List<Stadium> stadiums=stadiumRepository.getByIdAddress(address.get(k).getId());
+			for(int j=0;j<stadiums.size();j++) {
+				int sumAddress=0;
+				
+				List<StatusShift> statusShifts = statusShiftRepository.getAllStatusShiftByDate(date);				
+				for (int i = 0; i < statusShifts.size(); i++) {
+					if (statusShifts.get(i).getShift().getStadium().getId() == stadiums.get(j).getId()) {
+						sumAddress ++;
+					}
+				}
+				sumAddressWithStatus0+=stadiums.get(j).getShifts().size()-sumAddress;
+			}
+			
+			
+			sumAllAddress+=sumAddressWithStatus0;
+			
+			statistical.setNameAddess(address.get(k).getName());
+			statistical.setValue(sumAddressWithStatus0);
+			statisticals.add(statistical);
+		}
+		statisticalAll.setStatisticals(statisticals);
+		statisticalAll.setTotal(sumAllAddress);
+
+		return statisticalAll;
+	}
+
+
 
 	public JOpenCageLatLng getLatLong(String addressName) {
 		JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("098126ec84a8428c82f7afcdcfe69b5a");
@@ -300,4 +412,5 @@ public class AddressServiceImpl implements AddressService {
 		return compareByName;
 	}
 
+	
 }

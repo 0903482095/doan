@@ -3,6 +3,7 @@ package com.hoangnt.model.response;
 public class ResponseData<T> {
 	T accountInfo;
 	T address;
+	T statistical;
 	String idToken;
 
 	public T getAccountInfo() {
@@ -23,5 +24,12 @@ public class ResponseData<T> {
 	public void setAddress(T address) {
 		this.address = address;
 	}
+	public T getStatistical() {
+		return statistical;
+	}
+	public void setStatistical(T statistical) {
+		this.statistical = statistical;
+	}
+	
 
 }

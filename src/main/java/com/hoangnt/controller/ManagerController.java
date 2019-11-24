@@ -155,7 +155,7 @@ public class ManagerController {
 
 		UploadImage uploadImage = new UploadImage();
 		String nameImage = uploadImage.ramdom() + file.getOriginalFilename();
-		informationUser.setImageURL("http://vuonxa.com:9090/resources/upload-dir/user/" + nameImage);
+		informationUser.setImageURL("http://103.56.156.194:9090/resources/upload-dir/user/" + nameImage);
 
 		uploadImage.store(file, nameImage, rootLocation);
 

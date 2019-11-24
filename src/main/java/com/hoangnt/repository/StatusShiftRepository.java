@@ -21,4 +21,7 @@ public interface StatusShiftRepository extends JpaRepository<StatusShift, Intege
 	
 	@Query("SELECT s FROM StatusShift s WHERE s.status = ?1")
 	List<StatusShift> getFullByStatus(int status);
+	
+	@Query("SELECT s FROM StatusShift s WHERE s.status = ?1 AND s.date = ?2")
+	List<StatusShift> getFullByStatusAndDate(int status,String date);
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoangnt.model.AddressDTO;
+import com.hoangnt.model.StatisticalAll;
 import com.hoangnt.model.request.RequestAddress;
 import com.hoangnt.model.response.Response;
 import com.hoangnt.model.response.ResponseData;
@@ -55,7 +56,7 @@ public class AddressController {
 
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 	@GetMapping("/address/all")
-	public ResponseEntity<Response<List<AddressDTO>>> getAll() {
+	public ResponseEntity<Response<List<AddressDTO>>> getAllByIdUser() {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		int id = userService.findByUserName(authentication.getName()).getId();
@@ -139,6 +140,73 @@ public class AddressController {
 			addressDTOs= addressService.getAll();
 		}
 		responseData.setAddress(addressDTOs);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+	@GetMapping("/address/statistical/profit/real/{date}")
+	public ResponseEntity<Response<StatisticalAll<Float>>> profitReal(@PathVariable String date) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<StatisticalAll<Float>> response = new Response<>();
+		ResponseData<StatisticalAll<Float>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		StatisticalAll<Float> statisticalAll = addressService.profitDateAddressByIdUserWithStatus(id, 3, date);
+		responseData.setStatistical(statisticalAll);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+	@GetMapping("/address/statistical/profit/fake/{date}")
+	public ResponseEntity<Response<StatisticalAll<Float>>> profitFake(@PathVariable String date) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<StatisticalAll<Float>> response = new Response<>();
+		ResponseData<StatisticalAll<Float>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		StatisticalAll<Float> statisticalAll = addressService.profitDateAddressByIdUserWithStatus(id, 2, date);
+		responseData.setStatistical(statisticalAll);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+	@GetMapping("/address/statistical/numberStatus/{status}/{date}")
+	public ResponseEntity<Response<StatisticalAll<Integer>>> numberShiftWithStatus(@PathVariable String date,@PathVariable int status) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<StatisticalAll<Integer>> response = new Response<>();
+		ResponseData<StatisticalAll<Integer>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		StatisticalAll<Integer> statisticalAll = addressService.numberShiftDateAddressByIdUserWithStatus(id, status, date);
+		responseData.setStatistical(statisticalAll);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+	@GetMapping("/address/statistical/numberStatus/{date}")
+	public ResponseEntity<Response<StatisticalAll<Integer>>> numberShiftWithStatus0(@PathVariable String date) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<StatisticalAll<Integer>> response = new Response<>();
+		ResponseData<StatisticalAll<Integer>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		StatisticalAll<Integer> statisticalAll = addressService.numberShiftDateAddressByIdUserWithStatus0(id, date);
+		responseData.setStatistical(statisticalAll);
 		response.setStatus("OK");
 		response.setData(responseData);
 		return new ResponseEntity<>(response, HttpStatus.OK);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hoangnt.entity.Address;
 import com.hoangnt.model.AddressDTO;
+import com.hoangnt.model.StatisticalAll;
 import com.hoangnt.model.ShiftDTO;
 import com.hoangnt.model.StadiumDTO;
 import com.hoangnt.model.StadiumImageDTO;
@@ -23,5 +24,11 @@ public interface AddressService {
 	int deleteAddress(int id,int idUser);
 	
 	List<AddressDTO> getListAddressByLatLng(double lat,double lng);
+	
+	StatisticalAll<Float> profitDateAddressByIdUserWithStatus(int id,int status,String date);
+	
+	StatisticalAll<Integer> numberShiftDateAddressByIdUserWithStatus(int id,int status,String date);
+	
+	StatisticalAll<Integer> numberShiftDateAddressByIdUserWithStatus0(int id,String date);
 	
 }

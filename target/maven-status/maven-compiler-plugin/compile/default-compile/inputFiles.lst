@@ -8,6 +8,7 @@ D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\Account.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\Role.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\SocialInfo.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\response\ResponseData.java
+D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\StatisticalAll.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\UserService.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\DemoApplication.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\request\RequestAddress.java
@@ -54,6 +55,7 @@ D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\TownServiceImpl
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\controller\DistrictController.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\City.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\repository\DistrictRepository.java
+D:\eclipse-workspace\doan\src\main\java\com\hoangnt\model\Statistical.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\StadiumService.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\entity\Town.java
 D:\eclipse-workspace\doan\src\main\java\com\hoangnt\service\impl\StadiumServiceImpl.java
