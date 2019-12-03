@@ -66,5 +66,4 @@ public class StadiumDTO {
 	public void setStatusShiftResponses(List<StatusShiftResponse> statusShiftResponses) {
 		this.statusShiftResponses = statusShiftResponses;
 	}
-	
 }

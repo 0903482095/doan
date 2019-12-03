@@ -32,6 +32,10 @@ public class AddressController {
 	@Qualifier("manager")
 	@Autowired
 	UserService userService;
+	
+	@Qualifier("user")
+	@Autowired
+	UserService user;
 
 	@Autowired
 	AddressService addressService;
@@ -125,6 +129,7 @@ public class AddressController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}	
+	
 	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping(value = {"/address/coordinate/{lat}/{lng}","/address/coordinate"})
 	public ResponseEntity<Response<List<AddressDTO>>> getAllByLatLng(@PathVariable Optional<Double> lat,@PathVariable Optional<Double> lng) {

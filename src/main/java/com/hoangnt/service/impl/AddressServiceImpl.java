@@ -217,6 +217,7 @@ public class AddressServiceImpl implements AddressService {
 
 		return addressDTOs;
 	}
+	
 
 	@Override
 	public List<AddressDTO> getListAddressByLatLng(double lat, double lng) {
@@ -411,6 +412,8 @@ public class AddressServiceImpl implements AddressService {
 						- (Math.pow(currentLat, 2) + Math.pow(currentLng, 2))));
 		return compareByName;
 	}
+
+	
 
 	
 }

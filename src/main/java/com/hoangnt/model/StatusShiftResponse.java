@@ -7,6 +7,10 @@ public class StatusShiftResponse {
 	InformationUser user;
 	String date;
 	String note;
+	AddressDTO addressDTO;
+	StadiumDTO stadiumDTO;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -42,6 +46,18 @@ public class StatusShiftResponse {
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	public AddressDTO getAddressDTO() {
+		return addressDTO;
+	}
+	public void setAddressDTO(AddressDTO addressDTO) {
+		this.addressDTO = addressDTO;
+	}
+	public StadiumDTO getStadiumDTO() {
+		return stadiumDTO;
+	}
+	public void setStadiumDTO(StadiumDTO stadiumDTO) {
+		this.stadiumDTO = stadiumDTO;
 	}
 	
 }

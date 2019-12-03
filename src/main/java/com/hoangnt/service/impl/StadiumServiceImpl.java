@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hoangnt.entity.Shift;
 import com.hoangnt.entity.StatusShift;
+import com.hoangnt.model.AddressDTO;
 import com.hoangnt.model.InformationUser;
 import com.hoangnt.model.ShiftDTO;
 import com.hoangnt.model.StadiumDTO;
@@ -38,15 +39,6 @@ public class StadiumServiceImpl implements StadiumService {
 			stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
 			stadiumDTO.setDescription(stadium.getDescription());
 
-//			List<ShiftDTO> shiftDTOs = new ArrayList<>();
-//			stadium.getShifts().forEach(shift -> {
-//				ShiftDTO shiftDTO = new ShiftDTO();
-//				shiftDTO.setId(shift.getId());
-//				shiftDTO.setName(shift.getName());
-//				shiftDTO.setCash(shift.getCash());
-//				shiftDTOs.add(shiftDTO);
-//			});
-//			stadiumDTO.setShiftDTOs(shiftDTOs);
 			stadiumDTOs.add(stadiumDTO);
 		});
 		return stadiumDTOs;
@@ -90,6 +82,7 @@ public class StadiumServiceImpl implements StadiumService {
 					statusShiftResponse.setUser(informationUser);
 
 					statusShiftResponse.setStatus(statusShift.getStatus());
+					statusShiftResponse.setDate(statusShift.getDate());
 					statusShiftResponse.setNote(statusShift.getNote());
 					statusShiftResponses.add(statusShiftResponse);
 				}
@@ -173,8 +166,9 @@ public class StadiumServiceImpl implements StadiumService {
 				informationUser.setImageURL(statusShift.getUser().getImageURL());
 
 				statusShiftResponse.setUser(informationUser);
-
 				statusShiftResponse.setStatus(statusShift.getStatus());
+				statusShiftResponse.setDate(statusShift.getDate());
+				statusShiftResponse.setNote(statusShift.getNote());
 				statusShiftResponses.add(statusShiftResponse);
 			}
 		});
@@ -188,4 +182,53 @@ public class StadiumServiceImpl implements StadiumService {
 
 	}
 
+	@Override
+	public List<StatusShiftResponse> notifyConfirmForUser(int idUser,int status) {
+
+		List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
+		List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
+		statusShifts.forEach(statusShift -> {
+			if (statusShift.getUser().getId() == idUser) {
+
+				StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+				statusShiftResponse.setId(statusShift.getId());
+
+				ShiftDTO shiftDTO = new ShiftDTO();
+				shiftDTO.setId(statusShift.getShift().getId());
+				shiftDTO.setName(statusShift.getShift().getName());
+				shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+				shiftDTO.setTime_end(statusShift.getShift().getTime_end());
+				shiftDTO.setCash(statusShift.getShift().getCash());
+				statusShiftResponse.setShiftDTO(shiftDTO);
+
+				InformationUser informationUser = new InformationUser();
+				informationUser.setId(statusShift.getUser().getId());
+				informationUser.setFullName(statusShift.getUser().getFullName());
+				informationUser.setEmail(statusShift.getUser().getEmail());
+				informationUser.setPhone(statusShift.getUser().getPhone());
+				informationUser.setImageURL(statusShift.getUser().getImageURL());
+
+				statusShiftResponse.setUser(informationUser);
+				
+				AddressDTO addressDTO=new AddressDTO();
+				new AddressServiceImpl().entity2DTO(addressDTO, statusShift.getShift().getStadium().getAddress());
+				statusShiftResponse.setAddressDTO(addressDTO);
+				
+				StadiumDTO stadiumDTO = new StadiumDTO();
+				stadiumDTO.setId(statusShift.getShift().getStadium().getId());
+				stadiumDTO.setName(statusShift.getShift().getStadium().getName());
+				stadiumDTO.setMaType(statusShift.getShift().getStadium().getType());
+				stadiumDTO.setType(TypeStadium.getTypeByValue(statusShift.getShift().getStadium().getType()).toString());
+				stadiumDTO.setDescription(statusShift.getShift().getStadium().getDescription());
+				statusShiftResponse.setStadiumDTO(stadiumDTO);
+
+				statusShiftResponse.setStatus(statusShift.getStatus());
+				statusShiftResponse.setDate(statusShift.getDate());
+				statusShiftResponse.setNote(statusShift.getNote());
+				statusShiftResponses.add(statusShiftResponse);
+			}
+		});
+
+		return statusShiftResponses;
+	}
 }

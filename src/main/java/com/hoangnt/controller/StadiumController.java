@@ -4,9 +4,12 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +23,16 @@ import com.hoangnt.model.StatusShiftResponse;
 import com.hoangnt.model.response.Response;
 import com.hoangnt.model.response.ResponseData;
 import com.hoangnt.service.StadiumService;
+import com.hoangnt.service.UserService;
 
 @RestController
 public class StadiumController {
 	@Autowired
 	StadiumService stadiumService;
+	
+	@Qualifier("user")
+	@Autowired
+	UserService userService;
 	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 	@GetMapping("/stadiums/all/{id}")
@@ -63,6 +71,25 @@ public class StadiumController {
 		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		response.setData(responseData);
 		List<StatusShiftResponse> statusShiftResponses=stadiumService.getFullByIdStadiumWithStatus(idStadium, 1);
+		responseData.setAddress(statusShiftResponses);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+	
+	@PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+	@GetMapping("/stadiums/notify/confirm")
+	public ResponseEntity<Response<List<StatusShiftResponse>>> notifyConfirmShiftStatus() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<List<StatusShiftResponse>> response = new Response<>();
+		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		response.setData(responseData);
+		List<StatusShiftResponse> statusShiftResponses=stadiumService.notifyConfirmForUser(id, 2);
 		responseData.setAddress(statusShiftResponses);
 		response.setStatus("OK");
 		response.setData(responseData);

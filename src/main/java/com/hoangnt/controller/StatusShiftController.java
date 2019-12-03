@@ -41,7 +41,13 @@ public class StatusShiftController {
 	@PostMapping("/statusshift/create")
 	public ResponseEntity<Response<Void>> addStatusShift(@RequestBody StatusShiftDTO statusShiftDTO) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int id = userService.findByUserName(authentication.getName()).getId();
+		int id;
+		if(userService.findByUserName(authentication.getName()).getId()>0) {
+			id = userService.findByUserName(authentication.getName()).getId();
+		}
+		else {
+			id = managerService.findByUserName(authentication.getName()).getId();
+		}
 
 		Response<Void> response = new Response<>();
 		ResponseData<Void> responseData = new ResponseData<>();
@@ -84,6 +90,20 @@ public class StatusShiftController {
 		StatusShiftResponse statusShiftResponse = statusShiftService.getAllStatusShiftById(id);
 
 		responseData.setAddress(statusShiftResponse);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
+	@PutMapping("/statusshift/notify/update/{id}")
+	public ResponseEntity<Response<Void>> changeStatusNotifyConfirm(@PathVariable int id) {
+
+		Response<Void> response = new Response<>();
+		ResponseData<Void> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+
+		statusShiftService.changeStatusNotifyConfirm(id);
 		response.setStatus("OK");
 		response.setData(responseData);
 		return new ResponseEntity<>(response, HttpStatus.OK);

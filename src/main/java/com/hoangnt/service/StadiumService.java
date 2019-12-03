@@ -12,5 +12,7 @@ public interface StadiumService {
 	
 	List<StatusShiftResponse> getFullByIdStadiumWithStatus(int id,int status);
 	
+	List<StatusShiftResponse> notifyConfirmForUser(int idUser,int status);
+	
 	void deleteStadium(int id);
 }

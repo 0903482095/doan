@@ -107,6 +107,13 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 
 		return statusShiftResponses;
 	}
+	
+	@Override
+	public void changeStatusNotifyConfirm(int idStatusShift) {
+		StatusShift statusShift=statusShiftRepository.findById(idStatusShift).get();
+		statusShift.setStatus(5);
+		statusShiftRepository.save(statusShift);
+	}
 
 	public boolean checkStatus(int idShiftDTO, String date) {
 		if (null != statusShiftRepository.getStatusShiftByIdShiftAndDate(idShiftDTO, date)) {

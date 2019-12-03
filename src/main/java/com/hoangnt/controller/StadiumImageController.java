@@ -39,7 +39,7 @@ public class StadiumImageController {
 	    UploadImage uploadImage=new UploadImage();
 	    for(int i=0;i<files.length;i++) {
 	    	String nameImage=uploadImage.ramdom() + files[i].getOriginalFilename();
-	    	urls.add("http://103.56.156.194:9090/resources/upload-dir/address/" + nameImage);
+	    	urls.add("http://45.124.94.74:9090/resources/upload-dir/address/" + nameImage);
 	    	uploadImage.store(files[i], nameImage,rootLocation);
 	    }
 	    
