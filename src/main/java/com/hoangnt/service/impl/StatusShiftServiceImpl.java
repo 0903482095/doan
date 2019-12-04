@@ -111,7 +111,7 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 	@Override
 	public void changeStatusNotifyConfirm(int idStatusShift) {
 		StatusShift statusShift=statusShiftRepository.findById(idStatusShift).get();
-		statusShift.setStatus(5);
+		statusShift.setUser_confirm(1);;
 		statusShiftRepository.save(statusShift);
 	}
 

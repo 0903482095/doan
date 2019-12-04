@@ -30,6 +30,8 @@ public class StatusShift {
 	String date;
 	
 	String note;
+	
+	int user_confirm;
 
 	public int getId() {
 		return id;
@@ -77,6 +79,14 @@ public class StatusShift {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public int getUser_confirm() {
+		return user_confirm;
+	}
+
+	public void setUser_confirm(int user_confirm) {
+		this.user_confirm = user_confirm;
 	}
 
 	

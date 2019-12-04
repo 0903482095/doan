@@ -188,7 +188,7 @@ public class StadiumServiceImpl implements StadiumService {
 		List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
 		List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
 		statusShifts.forEach(statusShift -> {
-			if (statusShift.getUser().getId() == idUser) {
+			if (statusShift.getUser().getId() == idUser && statusShift.getUser_confirm()==0) {
 
 				StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
 				statusShiftResponse.setId(statusShift.getId());
