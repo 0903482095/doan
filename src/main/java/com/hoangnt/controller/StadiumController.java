@@ -90,6 +90,26 @@ public class StadiumController {
 		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		response.setData(responseData);
 		List<StatusShiftResponse> statusShiftResponses=stadiumService.notifyConfirmForUser(id, 2);
+		statusShiftResponses.addAll(stadiumService.notifyConfirmForUser(id, 3));
+		responseData.setAddress(statusShiftResponses);
+		response.setStatus("OK");
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+	
+	@PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+	@GetMapping("/stadiums/notify/cancel")
+	public ResponseEntity<Response<List<StatusShiftResponse>>> notifyConfirmCancelShiftStatus() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<List<StatusShiftResponse>> response = new Response<>();
+		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		response.setData(responseData);
+		List<StatusShiftResponse> statusShiftResponses=stadiumService.notifyConfirmForUser(id, 4);
 		responseData.setAddress(statusShiftResponses);
 		response.setStatus("OK");
 		response.setData(responseData);
