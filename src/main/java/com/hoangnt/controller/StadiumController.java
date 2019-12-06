@@ -89,7 +89,14 @@ public class StadiumController {
 	public ResponseEntity<Response<List<StatusShiftResponse>>> notifyConfirmShiftStatus() {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int id = userService.findByUserName(authentication.getName()).getId();
+		String role=authentication.getAuthorities().toString();
+		int id;
+		if(role.equals("[ROLE_USER]")) {
+			id = userService.findByUserName(authentication.getName()).getId();
+		}
+		else {
+			id = managerService.findByUserName(authentication.getName()).getId();
+		}
 
 		Response<List<StatusShiftResponse>> response = new Response<>();
 		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
@@ -109,7 +116,14 @@ public class StadiumController {
 	public ResponseEntity<Response<List<StatusShiftResponse>>> notifyConfirmCancelShiftStatus() {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int id = userService.findByUserName(authentication.getName()).getId();
+		String role=authentication.getAuthorities().toString();
+		int id;
+		if(role.equals("[ROLE_USER]")) {
+			id = userService.findByUserName(authentication.getName()).getId();
+		}
+		else {
+			id = managerService.findByUserName(authentication.getName()).getId();
+		}
 
 		Response<List<StatusShiftResponse>> response = new Response<>();
 		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();

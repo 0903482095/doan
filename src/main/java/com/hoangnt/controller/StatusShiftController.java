@@ -41,8 +41,9 @@ public class StatusShiftController {
 	@PostMapping("/statusshift/create")
 	public ResponseEntity<Response<Void>> addStatusShift(@RequestBody StatusShiftDTO statusShiftDTO) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String role=authentication.getAuthorities().toString();
 		int id;
-		if(userService.findByUserName(authentication.getName()).getId()>0) {
+		if(role.equals("[ROLE_USER]")) {
 			id = userService.findByUserName(authentication.getName()).getId();
 		}
 		else {
