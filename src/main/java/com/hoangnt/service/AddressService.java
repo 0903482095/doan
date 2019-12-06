@@ -17,7 +17,7 @@ public interface AddressService {
 	
 	List<AddressDTO> getAllByIdUser(int id);
 	
-	List<AddressDTO> getAllByIdUserWithStatus(int id,int status);
+	//List<AddressDTO> getAllByIdUserWithStatus(int id,int status);
 	
 	int updateAddress(RequestAddress requestAddress);
 		

@@ -30,6 +30,10 @@ public class StadiumController {
 	@Autowired
 	StadiumService stadiumService;
 	
+	@Qualifier("manager")
+	@Autowired
+	UserService managerService;
+	
 	@Qualifier("user")
 	@Autowired
 	UserService userService;
@@ -63,14 +67,16 @@ public class StadiumController {
 	}
 	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@GetMapping("/stadiums/confirm/{idStadium}")
-	public ResponseEntity<Response<List<StatusShiftResponse>>> confirmShiftStatus(@PathVariable int idStadium) {
+	@GetMapping("/stadiums/confirm")
+	public ResponseEntity<Response<List<StatusShiftResponse>>> confirmShiftStatus() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = managerService.findByUserName(authentication.getName()).getId();
 
 		Response<List<StatusShiftResponse>> response = new Response<>();
 		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
 		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		response.setData(responseData);
-		List<StatusShiftResponse> statusShiftResponses=stadiumService.getFullByIdStadiumWithStatus(idStadium, 1);
+		List<StatusShiftResponse> statusShiftResponses=stadiumService.confirmForManager(id, 1);
 		responseData.setAddress(statusShiftResponses);
 		response.setStatus("OK");
 		response.setData(responseData);

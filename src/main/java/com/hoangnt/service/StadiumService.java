@@ -10,9 +10,11 @@ public interface StadiumService {
 	
 	List<StadiumDTO> getFullByIdAddress(int id,String date);
 	
-	List<StatusShiftResponse> getFullByIdStadiumWithStatus(int id,int status);
+//	List<StatusShiftResponse> getFullByIdStadiumWithStatus(int id,int status);
 	
 	List<StatusShiftResponse> notifyConfirmForUser(int idUser,int status);
+	
+	List<StatusShiftResponse> confirmForManager(int idUser,int status);
 	
 	void deleteStadium(int id);
 }

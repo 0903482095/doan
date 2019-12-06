@@ -75,22 +75,22 @@ public class AddressController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-	@GetMapping("/address/confirm")
-	public ResponseEntity<Response<List<AddressDTO>>> getAllWithStatus() {
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int id = userService.findByUserName(authentication.getName()).getId();
-
-		Response<List<AddressDTO>> response = new Response<>();
-		ResponseData<List<AddressDTO>> responseData = new ResponseData<>();
-		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		List<AddressDTO> addressDTOs = addressService.getAllByIdUserWithStatus(id, 1);
-		responseData.setAddress(addressDTOs);
-		response.setStatus("OK");
-		response.setData(responseData);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
+//	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+//	@GetMapping("/address/confirm")
+//	public ResponseEntity<Response<List<AddressDTO>>> getAllWithStatus() {
+//
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		int id = userService.findByUserName(authentication.getName()).getId();
+//
+//		Response<List<AddressDTO>> response = new Response<>();
+//		ResponseData<List<AddressDTO>> responseData = new ResponseData<>();
+//		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+//		List<AddressDTO> addressDTOs = addressService.getAllByIdUserWithStatus(id, 1);
+//		responseData.setAddress(addressDTOs);
+//		response.setStatus("OK");
+//		response.setData(responseData);
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
 	
 
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")

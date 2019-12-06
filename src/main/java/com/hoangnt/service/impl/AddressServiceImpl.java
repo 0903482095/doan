@@ -166,57 +166,57 @@ public class AddressServiceImpl implements AddressService {
 		return addressDTOs;
 	}
 
-	@Override
-	public List<AddressDTO> getAllByIdUserWithStatus(int id, int status) {
-		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
-
-		addressRepository.getByIdUser(id).forEach(address -> {
-			AddressDTO addressDTO = new AddressDTO();
-
-			List<StadiumDTO> stadiumDTOs = new ArrayList<StadiumDTO>();
-			stadiumRepository.getByIdAddress(address.getId()).forEach(stadium -> {
-				StadiumDTO stadiumDTO = new StadiumDTO();
-				stadiumDTO.setId(stadium.getId());
-				stadiumDTO.setName(stadium.getName());
-				stadiumDTO.setMaType(stadium.getType());
-				stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
-				stadiumDTO.setDescription(stadium.getDescription());
-
-				List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
-				List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
-
-				statusShifts.forEach(statusShift -> {
-					if (statusShift.getShift().getStadium().getId() == stadium.getId()) {
-
-						StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
-						statusShiftResponse.setId(statusShift.getId());
-
-						statusShiftResponses.add(statusShiftResponse);
-					}
-				});
-				if (statusShiftResponses.isEmpty()) {
-					stadiumDTO = null;
-				} else {
-					stadiumDTO.setStatusShiftResponses(statusShiftResponses);
-					stadiumDTOs.add(stadiumDTO);
-
-					addressDTO.setStadiumDTOs(stadiumDTOs);
-				}
-			});
-
-			if (null!=addressDTO.getStadiumDTOs()) {
-				addressDTOs.add(entity2DTO(addressDTO, address));
-			}
-		});
-		
-		addressDTOs.forEach(address->{
-			address.getStadiumDTOs().forEach(stadium->{
-				stadium.setStatusShiftResponses(null);
-			});
-		});
-
-		return addressDTOs;
-	}
+//	@Override
+//	public List<AddressDTO> getAllByIdUserWithStatus(int id, int status) {
+//		List<AddressDTO> addressDTOs = new ArrayList<AddressDTO>();
+//
+//		addressRepository.getByIdUser(id).forEach(address -> {
+//			AddressDTO addressDTO = new AddressDTO();
+//
+//			List<StadiumDTO> stadiumDTOs = new ArrayList<StadiumDTO>();
+//			stadiumRepository.getByIdAddress(address.getId()).forEach(stadium -> {
+//				StadiumDTO stadiumDTO = new StadiumDTO();
+//				stadiumDTO.setId(stadium.getId());
+//				stadiumDTO.setName(stadium.getName());
+//				stadiumDTO.setMaType(stadium.getType());
+//				stadiumDTO.setType(TypeStadium.getTypeByValue(stadium.getType()).toString());
+//				stadiumDTO.setDescription(stadium.getDescription());
+//
+//				List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
+//				List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
+//
+//				statusShifts.forEach(statusShift -> {
+//					if (statusShift.getShift().getStadium().getId() == stadium.getId()) {
+//
+//						StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+//						statusShiftResponse.setId(statusShift.getId());
+//
+//						statusShiftResponses.add(statusShiftResponse);
+//					}
+//				});
+//				if (statusShiftResponses.isEmpty()) {
+//					stadiumDTO = null;
+//				} else {
+//					stadiumDTO.setStatusShiftResponses(statusShiftResponses);
+//					stadiumDTOs.add(stadiumDTO);
+//
+//					addressDTO.setStadiumDTOs(stadiumDTOs);
+//				}
+//			});
+//
+//			if (null!=addressDTO.getStadiumDTOs()) {
+//				addressDTOs.add(entity2DTO(addressDTO, address));
+//			}
+//		});
+//		
+//		addressDTOs.forEach(address->{
+//			address.getStadiumDTOs().forEach(stadium->{
+//				stadium.setStatusShiftResponses(null);
+//			});
+//		});
+//
+//		return addressDTOs;
+//	}
 	
 
 	@Override

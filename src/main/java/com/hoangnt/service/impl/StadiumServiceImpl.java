@@ -139,13 +139,56 @@ public class StadiumServiceImpl implements StadiumService {
 		return stadiumDTOs;
 	}
 
+//	@Override
+//	public List<StatusShiftResponse> getFullByIdStadiumWithStatus(int id, int status) {
+//
+//		List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
+//		List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
+//		statusShifts.forEach(statusShift -> {
+//			if (statusShift.getShift().getStadium().getId() == id) {
+//
+//				StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+//				statusShiftResponse.setId(statusShift.getId());
+//
+//				ShiftDTO shiftDTO = new ShiftDTO();
+//				shiftDTO.setId(statusShift.getShift().getId());
+//				shiftDTO.setName(statusShift.getShift().getName());
+//				shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+//				shiftDTO.setTime_end(statusShift.getShift().getTime_end());
+//				shiftDTO.setCash(statusShift.getShift().getCash());
+//				statusShiftResponse.setShiftDTO(shiftDTO);
+//
+//				InformationUser informationUser = new InformationUser();
+//				informationUser.setId(statusShift.getUser().getId());
+//				informationUser.setFullName(statusShift.getUser().getFullName());
+//				informationUser.setEmail(statusShift.getUser().getEmail());
+//				informationUser.setPhone(statusShift.getUser().getPhone());
+//				informationUser.setImageURL(statusShift.getUser().getImageURL());
+//
+//				statusShiftResponse.setUser(informationUser);
+//				statusShiftResponse.setStatus(statusShift.getStatus());
+//				statusShiftResponse.setDate(statusShift.getDate());
+//				statusShiftResponse.setNote(statusShift.getNote());
+//				statusShiftResponses.add(statusShiftResponse);
+//			}
+//		});
+//
+//		return statusShiftResponses;
+//	}
+
 	@Override
-	public List<StatusShiftResponse> getFullByIdStadiumWithStatus(int id, int status) {
+	public void deleteStadium(int id) {
+		stadiumRepository.deleteById(id);
+
+	}
+
+	@Override
+	public List<StatusShiftResponse> notifyConfirmForUser(int idUser,int status) {
 
 		List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
 		List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
 		statusShifts.forEach(statusShift -> {
-			if (statusShift.getShift().getStadium().getId() == id) {
+			if (statusShift.getUser().getId() == idUser && statusShift.getUser_confirm()==0) {
 
 				StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
 				statusShiftResponse.setId(statusShift.getId());
@@ -166,6 +209,19 @@ public class StadiumServiceImpl implements StadiumService {
 				informationUser.setImageURL(statusShift.getUser().getImageURL());
 
 				statusShiftResponse.setUser(informationUser);
+				
+				AddressDTO addressDTO=new AddressDTO();
+				new AddressServiceImpl().entity2DTO(addressDTO, statusShift.getShift().getStadium().getAddress());
+				statusShiftResponse.setAddressDTO(addressDTO);
+				
+				StadiumDTO stadiumDTO = new StadiumDTO();
+				stadiumDTO.setId(statusShift.getShift().getStadium().getId());
+				stadiumDTO.setName(statusShift.getShift().getStadium().getName());
+				stadiumDTO.setMaType(statusShift.getShift().getStadium().getType());
+				stadiumDTO.setType(TypeStadium.getTypeByValue(statusShift.getShift().getStadium().getType()).toString());
+				stadiumDTO.setDescription(statusShift.getShift().getStadium().getDescription());
+				statusShiftResponse.setStadiumDTO(stadiumDTO);
+
 				statusShiftResponse.setStatus(statusShift.getStatus());
 				statusShiftResponse.setDate(statusShift.getDate());
 				statusShiftResponse.setNote(statusShift.getNote());
@@ -175,20 +231,13 @@ public class StadiumServiceImpl implements StadiumService {
 
 		return statusShiftResponses;
 	}
-
 	@Override
-	public void deleteStadium(int id) {
-		stadiumRepository.deleteById(id);
-
-	}
-
-	@Override
-	public List<StatusShiftResponse> notifyConfirmForUser(int idUser,int status) {
+	public List<StatusShiftResponse> confirmForManager(int idUser,int status) {
 
 		List<StatusShift> statusShifts = statusShiftRepository.getFullByStatus(status);
 		List<StatusShiftResponse> statusShiftResponses = new ArrayList<>();
 		statusShifts.forEach(statusShift -> {
-			if (statusShift.getUser().getId() == idUser && statusShift.getUser_confirm()==0) {
+			if (statusShift.getShift().getStadium().getAddress().getUser().getId() == idUser) {
 
 				StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
 				statusShiftResponse.setId(statusShift.getId());
