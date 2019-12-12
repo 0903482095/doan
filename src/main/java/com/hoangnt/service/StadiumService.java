@@ -16,5 +16,5 @@ public interface StadiumService {
 	
 	List<StatusShiftResponse> confirmForManager(int idUser,int status);
 	
-	void deleteStadium(int id);
+	void deleteStadium(int id,int idUser);
 }

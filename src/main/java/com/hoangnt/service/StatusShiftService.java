@@ -8,11 +8,11 @@ import com.hoangnt.model.StatusShiftResponse;
 public interface StatusShiftService {
 	int addStatusShift(StatusShiftDTO statusShiftDTO);
 	
-	int updateStatusShift(StatusShiftDTO statusShiftDTO);
+	int updateStatusShift(StatusShiftDTO statusShiftDTO,int idUser);
 	
 	StatusShiftResponse getAllStatusShiftById(int id);
 	
-	List<StatusShiftResponse> getAllStatusShiftByDate(String date,int idUser);
+//	List<StatusShiftResponse> getAllStatusShiftByDate(String date,int idUser);
 	
-	void changeStatusNotifyConfirm(int idStatusShift);
+	void changeStatusNotifyConfirm(int idStatusShift,int idUser);
 }

@@ -69,15 +69,25 @@ public class StatusShiftController {
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 	@PutMapping("/statusshift/update")
 	public ResponseEntity<Response<Void>> updateStatusShift(@RequestBody StatusShiftDTO statusShiftDTO) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = managerService.findByUserName(authentication.getName()).getId();
 
 		Response<Void> response = new Response<>();
 		ResponseData<Void> responseData = new ResponseData<>();
 		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		response.setData(responseData);
-		statusShiftService.updateStatusShift(statusShiftDTO);
-		response.setStatus("OK");
-		return new ResponseEntity<>(response, HttpStatus.CREATED);
+		int result=statusShiftService.updateStatusShift(statusShiftDTO,id);
+		if(result>0) {
+			response.setStatus("OK");
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+		}
+		else {
+			response.setStatus("Authority");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
+		}
+		
 	}
 
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
@@ -99,12 +109,15 @@ public class StatusShiftController {
 	@PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
 	@PutMapping("/statusshift/notify/update/{id}")
 	public ResponseEntity<Response<Void>> changeStatusNotifyConfirm(@PathVariable int id) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int idUser = userService.findByUserName(authentication.getName()).getId();
 
 		Response<Void> response = new Response<>();
 		ResponseData<Void> responseData = new ResponseData<>();
 		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-		statusShiftService.changeStatusNotifyConfirm(id);
+		statusShiftService.changeStatusNotifyConfirm(id,idUser);
 		response.setStatus("OK");
 		response.setData(responseData);
 		return new ResponseEntity<>(response, HttpStatus.OK);

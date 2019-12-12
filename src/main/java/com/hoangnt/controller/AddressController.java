@@ -97,17 +97,28 @@ public class AddressController {
 	@PutMapping("/address/update/{id}")
 	public ResponseEntity<Response<Integer>> updateAddress(@RequestBody RequestAddress requestAddress,
 			@PathVariable int id) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int idUser = userService.findByUserName(authentication.getName()).getId();
 
 		Response<Integer> response = new Response<>();
 		ResponseData<Integer> responseData = new ResponseData<>();
 		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
 		requestAddress.setId(id);
-		int idAddress = addressService.updateAddress(requestAddress);
-		responseData.setAddress(idAddress);
-		response.setStatus("OK");
-		response.setData(responseData);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		int idAddress = addressService.updateAddress(requestAddress,idUser);
+		if(idAddress>0) {
+			responseData.setAddress(idAddress);
+			response.setStatus("OK");
+			response.setData(responseData);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		else {
+			response.setStatus("Authority");
+			response.setData(responseData);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")

@@ -31,7 +31,7 @@ public class ShiftServiceImpl implements ShiftService{
 	@Override
 	public ShiftDTO updateShift(ShiftDTO shiftDTO) {
 		Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
-		shift.setName(shift.getName());
+		shift.setName(shiftDTO.getName());
 		shift.setTime_start(shiftDTO.getTime_start());
 		shift.setTime_end(shiftDTO.getTime_end());
 		shift.setCash(shiftDTO.getCash());

@@ -157,10 +157,13 @@ public class StadiumController {
 	@DeleteMapping("/stadiums/delete/{id}")
 	public ResponseEntity<Response<Void>> deleteStadium(@PathVariable int id) {
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int idUser = managerService.findByUserName(authentication.getName()).getId();
+		
 		Response<Void> response = new Response<>();
 	    ResponseData<Void> responseData = new ResponseData<>();
 	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-	    stadiumService.deleteStadium(id);
+	    stadiumService.deleteStadium(id,idUser);
 	   
 		response.setStatus("OK");
         response.setData(responseData);

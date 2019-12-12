@@ -116,34 +116,38 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public int updateAddress(RequestAddress requestAddress) {
+	public int updateAddress(RequestAddress requestAddress,int idUser) {
+		
 		Address address = addressRepository.findById(requestAddress.getId()).get();
+		if(address.getUser().getId()==idUser) {
+			address.setName(requestAddress.getName());
+			address.setSpecificAddress(requestAddress.getSpecificAddress());
+			address.setDescription(requestAddress.getDescription());
+			address.setCity(new City(requestAddress.getMatp()));
+			address.setDistrict(new District(requestAddress.getMaqh()));
+			address.setTown(new Town(requestAddress.getXaid()));
 
-		address.setName(requestAddress.getName());
-		address.setSpecificAddress(requestAddress.getSpecificAddress());
-		address.setDescription(requestAddress.getDescription());
-		address.setCity(new City(requestAddress.getMatp()));
-		address.setDistrict(new District(requestAddress.getMaqh()));
-		address.setTown(new Town(requestAddress.getXaid()));
+			String addressName = townRepository.findById(requestAddress.getXaid()).get().getName() + ", "
+					+ districtRepository.findById(requestAddress.getMaqh()).get().getName() + ", "
+					+ cityRepository.findById(requestAddress.getMatp()).get().getName();
+			JOpenCageLatLng latlng = getLatLong(addressName);
+			address.setLatitude(latlng.getLat());
+			address.setLongitude(latlng.getLng());
+			List<Stadium> stadiums = new ArrayList<Stadium>();
 
-		String addressName = townRepository.findById(requestAddress.getXaid()).get().getName() + ", "
-				+ districtRepository.findById(requestAddress.getMaqh()).get().getName() + ", "
-				+ cityRepository.findById(requestAddress.getMatp()).get().getName();
-		JOpenCageLatLng latlng = getLatLong(addressName);
-		address.setLatitude(latlng.getLat());
-		address.setLongitude(latlng.getLng());
-		List<Stadium> stadiums = new ArrayList<Stadium>();
+			requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
+				Stadium stadium = stadiumRepository.findById(stadiumDTO.getId()).get();
+				stadium.setName(stadiumDTO.getName());
+				stadium.setType(stadiumDTO.getMaType());
+				stadium.setDescription(stadiumDTO.getDescription());
 
-		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
-			Stadium stadium = stadiumRepository.findById(stadiumDTO.getId()).get();
-			stadium.setName(stadiumDTO.getName());
-			stadium.setType(stadiumDTO.getMaType());
-			stadium.setDescription(stadiumDTO.getDescription());
-
-		});
-		address.setStadiums(stadiums);
-		Address address2 = addressRepository.save(address);
-		return address2.getId();
+			});
+			address.setStadiums(stadiums);
+			Address address2 = addressRepository.save(address);
+			return address2.getId();
+		}
+		return -1;
+		
 	}
 
 	@Override

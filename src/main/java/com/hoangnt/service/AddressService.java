@@ -19,7 +19,7 @@ public interface AddressService {
 	
 	//List<AddressDTO> getAllByIdUserWithStatus(int id,int status);
 	
-	int updateAddress(RequestAddress requestAddress);
+	int updateAddress(RequestAddress requestAddress,int idUser);
 		
 	int deleteAddress(int id,int idUser);
 	

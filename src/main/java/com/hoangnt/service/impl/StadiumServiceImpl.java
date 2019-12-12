@@ -177,9 +177,11 @@ public class StadiumServiceImpl implements StadiumService {
 //	}
 
 	@Override
-	public void deleteStadium(int id) {
-		stadiumRepository.deleteById(id);
-
+	public void deleteStadium(int id,int idUser) {
+		if(stadiumRepository.findById(id).get().getAddress().getUser().getId()==idUser) {
+			stadiumRepository.deleteById(id);
+		}
+		
 	}
 
 	@Override
