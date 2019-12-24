@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,12 +24,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hoangnt.model.response.Response;
 import com.hoangnt.model.response.ResponseData;
 import com.hoangnt.service.StadiumImageService;
+import com.hoangnt.service.UserService;
 import com.hoangnt.utils.UploadImage;
 
 @RestController
 public class StadiumImageController {
 	@Autowired
 	StadiumImageService stadiumImageService;
+	
+	@Qualifier("manager")
+	@Autowired
+	UserService managerService;
 	
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 	@PutMapping("/address/image/add/{id}")
@@ -52,6 +60,8 @@ public class StadiumImageController {
 	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 	@DeleteMapping("/address/image/delete/{id}")
 	public ResponseEntity<Response<Void>> deleteImageAddress(@PathVariable int id) throws IOException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int idUser = managerService.findByUserName(authentication.getName()).getId();
 		
 		Response<Void> response = new Response<>();
 	    ResponseData<Void> responseData = new ResponseData<>();
@@ -59,7 +69,7 @@ public class StadiumImageController {
 	    UploadImage uploadImage=new UploadImage();
 	    String urlImage=stadiumImageService.getUrlImage(id);
 	    uploadImage.deleteImg(urlImage);
-	    stadiumImageService.deleteImage(id);
+	    stadiumImageService.deleteImage(id,idUser);
 	   
 		response.setStatus("OK");
         response.setData(responseData);

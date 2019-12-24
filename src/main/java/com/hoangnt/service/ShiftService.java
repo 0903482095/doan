@@ -5,7 +5,7 @@ import com.hoangnt.model.ShiftDTO;
 public interface ShiftService {
 	ShiftDTO getShiftById(int id);
 
-	ShiftDTO updateShift(ShiftDTO shiftDTO);
+	ShiftDTO updateShift(ShiftDTO shiftDTO,int idUser);
 	
-	void deleteShift(int id);
+	int deleteShift(int id, int idUser);
 }

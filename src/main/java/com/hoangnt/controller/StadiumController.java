@@ -163,10 +163,16 @@ public class StadiumController {
 		Response<Void> response = new Response<>();
 	    ResponseData<Void> responseData = new ResponseData<>();
 	    response.setTimestamp(new Timestamp(System.currentTimeMillis()));
-	    stadiumService.deleteStadium(id,idUser);
-	   
-		response.setStatus("OK");
-        response.setData(responseData);
-		return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
+	    int status=stadiumService.deleteStadium(id,idUser);
+	    response.setData(responseData);
+	    if(status>0) {
+	    	response.setStatus("OK");
+			return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
+	    }
+	    else {
+	    	response.setStatus("DELETE FAIL");
+			return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	    }
+		
 	}
 }

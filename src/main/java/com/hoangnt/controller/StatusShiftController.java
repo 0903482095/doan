@@ -122,6 +122,24 @@ public class StatusShiftController {
 		response.setData(responseData);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+
+	@PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
+	@GetMapping("/statusshift/status/{status}")
+	public ResponseEntity<Response<List<StatusShiftResponse>>> getStatusShiftByStatusAndUser(@PathVariable int status) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int id = userService.findByUserName(authentication.getName()).getId();
+
+		Response<List<StatusShiftResponse>> response = new Response<>();
+		ResponseData<List<StatusShiftResponse>> responseData = new ResponseData<>();
+		response.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		response.setData(responseData);
+		List<StatusShiftResponse> statusShiftResponses=statusShiftService.getStatusShiftByStatusAndUser(status, id);
+		responseData.setAddress(statusShiftResponses);
+		response.setData(responseData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
 
 //	@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
 //	@GetMapping("/statusshift/date/{date}")

@@ -31,9 +31,8 @@ public class StadiumImageServiceImpl implements StadiumImageService{
 	}
 
 	@Override
-	public void deleteImage(int id) {
+	public void deleteImage(int id,int idUser) {
 		stadiumImageRepository.deleteById(id);
-		
 	}
 
 	@Override

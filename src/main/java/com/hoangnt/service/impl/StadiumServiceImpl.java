@@ -177,10 +177,12 @@ public class StadiumServiceImpl implements StadiumService {
 //	}
 
 	@Override
-	public void deleteStadium(int id,int idUser) {
+	public int deleteStadium(int id,int idUser) {
 		if(stadiumRepository.findById(id).get().getAddress().getUser().getId()==idUser) {
 			stadiumRepository.deleteById(id);
+			return 1;
 		}
+		else return -1;
 		
 	}
 

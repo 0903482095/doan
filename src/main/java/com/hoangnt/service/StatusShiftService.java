@@ -12,6 +12,8 @@ public interface StatusShiftService {
 	
 	StatusShiftResponse getAllStatusShiftById(int id);
 	
+	List<StatusShiftResponse> getStatusShiftByStatusAndUser(int status,int idUser);
+	
 //	List<StatusShiftResponse> getAllStatusShiftByDate(String date,int idUser);
 	
 	void changeStatusNotifyConfirm(int idStatusShift,int idUser);

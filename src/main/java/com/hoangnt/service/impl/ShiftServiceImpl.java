@@ -29,19 +29,28 @@ public class ShiftServiceImpl implements ShiftService{
 	}
 
 	@Override
-	public ShiftDTO updateShift(ShiftDTO shiftDTO) {
-		Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
-		shift.setName(shiftDTO.getName());
-		shift.setTime_start(shiftDTO.getTime_start());
-		shift.setTime_end(shiftDTO.getTime_end());
-		shift.setCash(shiftDTO.getCash());
-		shiftRepository.save(shift);
-		return shiftDTO;
+	public ShiftDTO updateShift(ShiftDTO shiftDTO,int idUser) {
+		if(shiftRepository.findById(shiftDTO.getId()).get().getStadium().getAddress().getUser().getId()==idUser) {
+			Shift shift=shiftRepository.findById(shiftDTO.getId()).get();
+			shift.setName(shiftDTO.getName());
+			shift.setTime_start(shiftDTO.getTime_start());
+			shift.setTime_end(shiftDTO.getTime_end());
+			shift.setCash(shiftDTO.getCash());
+			shiftRepository.save(shift);
+			return shiftDTO;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
-	public void deleteShift(int id) {
-		shiftRepository.deleteById(id);
+	public int deleteShift(int id,int idUser) {
+		if(shiftRepository.findById(id).get().getStadium().getAddress().getUser().getId()==idUser) {
+			shiftRepository.deleteById(id);
+			return 1;
+		}
+		else return -1;
 	}
 	
 }

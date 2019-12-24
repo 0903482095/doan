@@ -1,10 +1,14 @@
 package com.hoangnt.service.impl;
 
+import com.hoangnt.entity.Address;
 import com.hoangnt.entity.Shift;
+import com.hoangnt.entity.Stadium;
 import com.hoangnt.entity.StatusShift;
 import com.hoangnt.entity.User;
+import com.hoangnt.model.AddressDTO;
 import com.hoangnt.model.InformationUser;
 import com.hoangnt.model.ShiftDTO;
+import com.hoangnt.model.StadiumDTO;
 import com.hoangnt.model.StatusShiftDTO;
 import com.hoangnt.model.StatusShiftResponse;
 import com.hoangnt.repository.ShiftRepository;
@@ -72,6 +76,18 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 		shiftDTO.setTime_end(statusShift.getShift().getTime_end());
 		shiftDTO.setCash(statusShift.getShift().getCash());
 		statusShiftResponse.setShiftDTO(shiftDTO);
+		
+		AddressDTO addressDTO=new AddressDTO();
+		Address address=statusShift.getShift().getStadium().getAddress();
+		addressDTO.setId(address.getId());
+		addressDTO.setName(address.getName());
+		statusShiftResponse.setAddressDTO(addressDTO);
+		
+		StadiumDTO stadiumDTO=new StadiumDTO();
+		Stadium stadium=statusShift.getShift().getStadium();
+		stadiumDTO.setId(stadium.getId());
+		stadiumDTO.setName(stadium.getName());
+		statusShiftResponse.setStadiumDTO(stadiumDTO);
 
 		InformationUser informationUser = new InformationUser();
 		informationUser.setId(statusShift.getUser().getId());
@@ -85,6 +101,44 @@ public class StatusShiftServiceImpl implements StatusShiftService {
 		statusShiftResponse.setStatus(statusShift.getStatus());
 		return statusShiftResponse;
 	}
+	
+	@Override
+	public List<StatusShiftResponse> getStatusShiftByStatusAndUser(int status, int idUser) {
+		List<StatusShift> statusShifts = statusShiftRepository.getStatusShiftByStatusAndUser(status, idUser);
+		List<StatusShiftResponse> statusShiftResponses=new ArrayList<>();
+		
+		statusShifts.forEach(statusShift->{
+			StatusShiftResponse statusShiftResponse = new StatusShiftResponse();
+			statusShiftResponse.setId(statusShift.getId());
+
+			ShiftDTO shiftDTO = new ShiftDTO();
+			shiftDTO.setId(statusShift.getShift().getId());
+			shiftDTO.setName(statusShift.getShift().getName());
+			shiftDTO.setTime_start(statusShift.getShift().getTime_start());
+			shiftDTO.setTime_end(statusShift.getShift().getTime_end());
+			shiftDTO.setCash(statusShift.getShift().getCash());
+			statusShiftResponse.setShiftDTO(shiftDTO);
+			
+			AddressDTO addressDTO=new AddressDTO();
+			Address address=statusShift.getShift().getStadium().getAddress();
+			addressDTO.setId(address.getId());
+			addressDTO.setName(address.getName());
+			statusShiftResponse.setAddressDTO(addressDTO);
+			
+			StadiumDTO stadiumDTO=new StadiumDTO();
+			Stadium stadium=statusShift.getShift().getStadium();
+			stadiumDTO.setId(stadium.getId());
+			stadiumDTO.setName(stadium.getName());
+			statusShiftResponse.setStadiumDTO(stadiumDTO);
+
+			statusShiftResponse.setStatus(statusShift.getStatus());
+			
+			statusShiftResponses.add(statusShiftResponse);
+		});
+		
+		return statusShiftResponses;
+	}
+	
 
 //	@Override
 //	public List<StatusShiftResponse> getAllStatusShiftByDate(String date, int idUser) {
