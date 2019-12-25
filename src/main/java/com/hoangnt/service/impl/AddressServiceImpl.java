@@ -7,7 +7,11 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
@@ -43,6 +47,7 @@ import com.hoangnt.repository.StatusShiftRepository;
 import com.hoangnt.repository.TownRepository;
 import com.hoangnt.service.AddressService;
 import com.hoangnt.utils.TypeStadium;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -81,12 +86,16 @@ public class AddressServiceImpl implements AddressService {
 		address.setCity(new City(requestAddress.getMatp()));
 		address.setDistrict(new District(requestAddress.getMaqh()));
 		address.setTown(new Town(requestAddress.getXaid()));
-		String addressName = townRepository.findById(requestAddress.getXaid()).get().getName() + ", "
-				+ districtRepository.findById(requestAddress.getMaqh()).get().getName() + ", "
+		String addressName =address.getSpecificAddress()+","+townRepository.findById(requestAddress.getXaid()).get().getName() + ","
+				+ districtRepository.findById(requestAddress.getMaqh()).get().getName() + ","
 				+ cityRepository.findById(requestAddress.getMatp()).get().getName();
-		JOpenCageLatLng latlng = getLatLong(addressName);
-		address.setLatitude(latlng.getLat());
-		address.setLongitude(latlng.getLng());
+//		JOpenCageLatLng latlng = getLatLong(addressName);
+//		address.setLatitude(latlng.getLat());
+//		address.setLongitude(latlng.getLng());
+		address.setLatitude((Double)getLatLngFromAddressName(addressName).get("lat"));
+		address.setLongitude((Double)getLatLngFromAddressName(addressName).get("lng"));
+
+		getLatLngFromAddressName(addressName);
 		List<Stadium> stadiums = new ArrayList<Stadium>();
 
 		requestAddress.getStadiumDTOs().forEach(stadiumDTO -> {
@@ -394,6 +403,21 @@ public class AddressServiceImpl implements AddressService {
 		return statisticalAll;
 	}
 
+	public JSONObject getLatLngFromAddressName(String addressName){
+		RestTemplate restTemplate=new RestTemplate();
+		String urlGetLatLng="https://maps.googleapis.com/maps/api/geocode/json?address="+addressName+"&key=AIzaSyCkK0QC1EO9-If0sumMn3ED_5BuwiUNTHs";
+		ResponseEntity<String> response
+				= restTemplate.getForEntity(urlGetLatLng , String.class);
+
+		JSONObject jsonObject=new JSONObject(response.getBody());
+		JSONArray jsonArray= (JSONArray) jsonObject.get("results");
+
+		JSONObject jsonObject1= (JSONObject) jsonArray.get(0);
+		JSONObject jsonObjectGeometry= (JSONObject) jsonObject1.get("geometry");
+		JSONObject jsonObjectLocation= (JSONObject) jsonObjectGeometry.get("location");
+
+		return jsonObjectLocation;
+	}
 
 
 	public JOpenCageLatLng getLatLong(String addressName) {
@@ -412,12 +436,27 @@ public class AddressServiceImpl implements AddressService {
 
 	private Comparator<Address> sortByCoodinates(double currentLat, double currentLng) {
 		Comparator<Address> compareByName = Comparator.comparing(
-				(Address address) -> Math.abs((Math.pow(address.getLatitude(), 2) + Math.pow(address.getLongitude(), 2))
-						- (Math.pow(currentLat, 2) + Math.pow(currentLng, 2))));
+				(Address address) -> getDistanceFromLatLonInKm(currentLat,currentLng,address.getLatitude(),address.getLongitude()));
 		return compareByName;
 	}
 
-	
+	private Double getDistanceFromLatLonInKm(double currentLat, double currentLng,double otherLat, double otherLng) {
+		int R = 6371; // Radius of the earth in km
+		double dLat = deg2rad(otherLat-currentLat);  // deg2rad below
+		double dLon = deg2rad(otherLng-currentLng);
+		double a =
+				Math.sin(dLat/2) * Math.sin(dLat/2) +
+						Math.cos(deg2rad(currentLat)) * Math.cos(deg2rad(otherLat)) *
+								Math.sin(dLon/2) * Math.sin(dLon/2)
+				;
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double d = R * c; // Distance in km
+		return d;
+	}
+
+	private Double deg2rad(Double deg) {
+		return deg * (Math.PI/180);
+	};
 
 	
 }

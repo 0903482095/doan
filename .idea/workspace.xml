@@ -3,30 +3,62 @@
   <component name="ChangeListManager">
     <list default="true" id="e51be1c9-eb13-4de9-bc2f-bb13860c2b66" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/controller/ShiftController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/controller/ShiftController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/entity/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/entity/Shift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/model/ShiftDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/model/ShiftDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/model/StatusShiftDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/model/StatusShiftDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/ShiftService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/ShiftService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/StatusShiftService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/StatusShiftService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/impl/AddressServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/impl/AddressServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/impl/ShiftServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/impl/ShiftServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/impl/StadiumServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoangnt/service/impl/StadiumServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/DemoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/DemoApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/config/JWTAuthenticationEntryPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/config/JWTAuthenticationEntryPoint.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/config/JWTAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/config/JWTAuthenticationFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/config/TokenProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/config/TokenProvider.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/SocialController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/SocialController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/config/WebSercurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/config/WebSercurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/AddressController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/AddressController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/CityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/CityController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/DistrictController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/DistrictController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/TownController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/TownController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Account.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Address.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/District.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/District.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Role.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Shift.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Shift.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/SocialInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/SocialInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Stadium.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Stadium.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Town.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/Town.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/AccountDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/AccountDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/AddressDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/AddressDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/CityDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/CityDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/DistrictDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/DistrictDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/InformationUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/InformationUser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/ShiftDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/ShiftDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/StadiumDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/StadiumDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/TownDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/TownDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/request/RequestAddress.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/request/RequestAddress.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/request/RequestSocial.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/request/RequestSocial.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/response/Response.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/response/Response.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/model/response/ResponseData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/model/response/ResponseData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/AddressRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/AddressRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/CityRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/CityRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/DistrictRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/DistrictRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/ShiftRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/ShiftRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/SocialRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/SocialRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/StadiumRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/StadiumRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/TownRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/TownRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/AddressService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/AddressService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/CityService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/CityService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/DistrictService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/DistrictService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/TownService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/TownService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/AddressServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/AddressServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/CityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/CityServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/DistrictServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/DistrictServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/TownServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/TownServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hoangnt/utils/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hoangnt/utils/Constants.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +117,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.DemoApplication">
+  <component name="RunManager" selected="Spring Boot.doan">
+    <configuration name="MMMMMM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hoangnt.service.impl.MMMMMM" />
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hoangnt.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="demo" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.hoangnt.DemoApplication" />
@@ -103,7 +148,13 @@
     <list>
       <item itemvalue="Spring Boot.DemoApplication" />
       <item itemvalue="Spring Boot.doan" />
+      <item itemvalue="Application.MMMMMM" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MMMMMM" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SbtLocalSettings">
     <option name="projectSyncType">
@@ -142,6 +193,7 @@
       <workItem from="1571965225604" duration="169000" />
       <workItem from="1571965952685" duration="3695000" />
       <workItem from="1573192572864" duration="3969000" />
+      <workItem from="1577264102203" duration="9997000" />
     </task>
     <servers />
   </component>
